@@ -2,6 +2,8 @@
 @{
     Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
+
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
 @section Header{ Edytuj <i>CV</i> }
 
@@ -195,7 +197,7 @@
                                     </button>
                                 </div>
 
-                                @if (Model.Projects.Where(m => m.ShowInCv == false && m.Commercial == false).Count() > 0)
+                                @if (Model.Projects.Any(m => m.ShowInCv == false && m.Commercial == false))
                                 {
                                     <div class="modal-body">
                                         <p>Wybierz projekt do dodania:</p>

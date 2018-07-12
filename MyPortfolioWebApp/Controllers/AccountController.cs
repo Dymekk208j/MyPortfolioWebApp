@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +7,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using MyPortfolioWebApp.Models;
-using MyPortfolioWebApp.Models.DatabaseModels;
 using MyPortfolioWebApp.Models.ViewModels;
 
 namespace MyPortfolioWebApp.Controllers
@@ -49,7 +45,6 @@ namespace MyPortfolioWebApp.Controllers
                 return RedirectToAction("UserMgt", "AdminPanel", new { page = 0 });
             }
 
-            ApplicationDbContext db = new ApplicationDbContext();
             ApplicationUser user = Mapper.Map<UpdateViewModel, ApplicationUser>(updateViewModel);
 
             await UserManager.UpdateAsync(user);
@@ -143,7 +138,7 @@ namespace MyPortfolioWebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Disassociate(string loginProvider, string providerKey)
         {
-            ManageMessageId? message = null;
+            ManageMessageId? message;
             IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -348,7 +343,7 @@ namespace MyPortfolioWebApp.Controllers
         {
             var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
             ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
-            return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
+            return PartialView("_RemoveAccountPartial", linkedAccounts);
         }
 
         protected override void Dispose(bool disposing)

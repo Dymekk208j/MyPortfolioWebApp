@@ -72,7 +72,8 @@ namespace MyPortfolioWebApp.Controllers
             Project project = Mapper.Map<ProjectViewModel, Project>(projectViewModel);
             project.DateTimeCreated = DateTime.Now;
             project.ShowInCv = false;
-            project.AuthorId = 1;
+            //TODO: Dodać kod podpinajacy id autora
+           // project.AuthorId = 1;
 
 
             _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
@@ -290,7 +291,8 @@ namespace MyPortfolioWebApp.Controllers
 
             tempProject.DateTimeCreated = DateTime.Now;
             tempProject.ShowInCv = false;
-            tempProject.AuthorId = 1;
+            //TODO: Dodac kod podpinajacy autora
+           // tempProject.AuthorId = 1;
 
 
             _db.Entry(tempProject).State = System.Data.Entity.EntityState.Modified;

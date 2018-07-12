@@ -39,7 +39,7 @@
                         <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "Contact")';return false;">Kontakt</button>
                         @if (Request.IsAuthenticated)
                         {
-                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
                             {
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-danger">Wyloguj</button>
@@ -121,10 +121,6 @@
                 </button>
                 <div id="rozwijana-lista" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista">
                     <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("UserMgt", "AdminPanel")';return false;">Konta użytkowników</button>
-                    @{
-                        //TODO: Dodać edycje ról
-                    }
-                    @*<button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("RoleMgt", "AdminPanel", new { page = 0 })';return false;">Role</button>*@
                 </div>
                 
                 @*<button type="button" class="btn btn-primary button_primary"  onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>*@

@@ -31,7 +31,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         public DateTime DateTimeCreated { get; set; }
 
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public static string GetPath(int projectId)
         {
@@ -40,7 +40,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         public static List<Image> GetImagesForProject(int projectId)
         {
-            List<Image> Images = new List<Image>();
+            List<Image> images = new List<Image>();
             ApplicationDbContext db = new ApplicationDbContext();
             var imgList = from z in db.Images
                           where z.ProjectId == projectId && z.TempraryProject == false
@@ -48,10 +48,10 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
             foreach (var v in imgList)
             {
-                if (v != null) Images.Add(v);
+                if (v != null) images.Add(v);
             }
 
-            return Images;
+            return images;
         }
         public List<TechnologyViewModel> GetTechnologies(int projectId)
         {

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using AutoMapper;
-using MyPortfolioWebApp.Models.DatabaseModels;
 using MyPortfolioWebApp.Models.ViewModels;
 
 namespace MyPortfolioWebApp.Models.DatabaseModels
@@ -17,7 +16,7 @@ namespace MyPortfolioWebApp.Models.DatabaseModels
         public bool ShowInCv { get; set; }
         public String ImageLink { get; set; }
         public DateTime DateTimeCreated { get; set; }
-        public int AuthorId { get; set; }
+        public string AuthorId { get; set; }
 
         public List<TechnologyViewModel> GetTechnologies(int projectId)
         {
