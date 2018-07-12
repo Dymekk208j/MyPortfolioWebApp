@@ -1,0 +1,39 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.ContactViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+@*  *@
+@section Header{ Edycja strony <i>Dane kontaktowe</i> }
+
+@{
+    using (Html.BeginForm("UpdateContact", "AdminPanel", FormMethod.Post, new { onsubmit = "return confirm('Czy na pewno chcesz podmienić dane w sekcji \"Kontakt\"?');" }))
+
+    {
+
+        @Html.LabelFor(m => m.PhoneNumber, new { style = "font-weight: bold; Margin-top: 10px;" })
+        @Html.EditorFor(m => m.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+
+        @Html.ValidationMessageFor(model => model.Email1, "*", new { @class = "text-danger" })
+        @Html.LabelFor(m => m.Email1, new {  style = "font-weight: bold; Margin-top: 10px;" })
+        @Html.EditorFor(m => m.Email1, new { htmlAttributes = new { @class = "form-control" }, })
+
+        @Html.LabelFor(m => m.Email2, new { style = "font-weight: bold; Margin-top: 10px;" })
+        @Html.EditorFor(m => m.Email2, new { htmlAttributes = new { @class = "form-control" }, })
+
+        @Html.LabelFor(m => m.FacebookLink, new { style = "font-weight: bold; Margin-top: 10px;" })
+        @Html.EditorFor(m => m.FacebookLink, new { htmlAttributes = new { @class = "form-control" }, })
+
+        @Html.ValidationMessageFor(model => model.Email1, "*", new { @class = "text-danger" })
+        @Html.LabelFor(m => m.LinkedInLink, new { style = "font-weight: bold; Margin-top: 10px;" })
+        @Html.EditorFor(m => m.LinkedInLink, new { htmlAttributes = new { @class = "form-control" }, })
+
+        @Html.ValidationMessageFor(model => model.Email1, "*", new { @class = "text-danger" })
+        @Html.LabelFor(m => m.GitHubLink, new { style = "font-weight: bold; Margin-top: 10px;" })
+        @Html.EditorFor(m => m.GitHubLink, new { htmlAttributes = new { @class = "form-control" }, })
+
+        <br />
+        <input type="submit" onCl class="btn btn-primary float-sm-right" value="Aktualizuj dane">
+
+    }
+}

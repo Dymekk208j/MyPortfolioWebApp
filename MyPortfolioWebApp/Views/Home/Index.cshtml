@@ -1,0 +1,135 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
+
+    <section class="skills">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 title">
+                    <h2>Moje umiejętności</h2>
+                    <span class="byline">Znajmość technologii:</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col my-card">
+                    <div class="card ">
+                        <img class="card-img-top" src="~/Lib/images/csharp.png" alt="Csharp logo image" />
+                        <div class="card-body">
+                            <p class="card-text text-center">Język C#.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col my-card">
+                    <div class="card ">
+                        <img class="card-img-top" src="~/Lib/images/asp.png" alt="Asp logo image" />
+                        <div class="card-body">
+                            <p class="card-text text-center">ASP.NET MVC</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col my-card">
+                    <div class="card ">
+                        <img class="card-img-top" src="~/Lib/images/mssql.png" alt="MSSQL logo image" />
+                        <div class="card-body">
+                            <p class="card-text text-center">Microsoft SQL Server</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col my-card">
+                    <div class="card ">
+                        <img class="card-img-top" src="~/Lib/images/java.png" alt="Java logo image"/>
+                        <div class="card-body">
+                            <p class="card-text text-center">Język JAVA.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col my-card">
+                    <div class="card ">
+                        <img class="card-img-top" src="~/Lib/images/android.png" alt="Android logo image" />
+                        <div class="card-body">
+                            <p class="card-text text-center">Android</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col my-card">
+                    <div class="card ">
+                        <img class="card-img-top" src="~/Lib/images/sqlite.png" alt="SQL logo image" />
+                        <div class="card-body">
+                            <p class="card-text text-center">SQLite</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="aboutme">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 title">
+                    <h2>Witaj na moim portfolio!</h2>
+                    <span class="byline">Nazywam się Damian Dziura, studiuję na wydziale Informatyki w Politechnice Koszalińskiej.</span>
+                </div>
+                <p>
+                    Moim wieloletnim hobby jest programowanie, aktualnie pracuje jako programista przy tworzeniu systemów ERP w technologii Microsoft Dynamics NAV. W wolnej chwili lubię spędzić czas przy dobrej książce bądź grze.
+                </p>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col text-center">
+                    <button type="button" class="btn-lg btn-success" onclick="location.href='@Url.Action("Index", "AboutMe")';return false;">Więcej o mnie</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="lastproject">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 title">
+                    <h2>Mój ostatni projekt:</h2>
+                    <span class="byline">@Html.DisplayFor(m => m.Title)</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <div style="text-align: center;" >
+                        @if (String.IsNullOrEmpty(Model.ImageLink))
+                        {
+                            <img class="rounded" src="~/Lib/images/PlaceHolder400x400.png" style="margin-bottom:2em;" alt=""/>
+                        }
+                        else
+                        {
+                            <img class="rounded
+                                 " src="@Model.ImageLink" style="margin-bottom:2em;" alt=""/>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-center">
+                    <p style="text-indent: 2%;">
+                        @Html.DisplayFor(m => m.ShordDescription);
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col text-center">
+                    <button type="button" class="btn-lg btn-secondary" onclick="location.href='@Url.Action("Index", "Projects")';return false;">Więcej projektów</button>
+                </div>
+            </div>
+        </div>
+    </section>

@@ -1,0 +1,26 @@
+﻿@model MyPortfolioWebApp.Models.DatabaseModels.Achivment
+
+
+<div id="@Html.Raw("AchivmentDiv" + Model.AchivmentId.ToString())">
+    <div id="@Html.Raw("AchivmentDivBtn" + Model.AchivmentId.ToString())" style="display: none;">
+        <button type="button" class="btn btn-outline-danger button-xs far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAchivmentFromCv", "AdminPanel", new { id = Model.AchivmentId })';return false;"></button>
+
+    </div>
+    <p>
+        <b>@Html.Name(Model.Title)</b><br />
+        <i>@Html.Name(Model.Date.ToShortDateString())</i><br />
+        @Html.Name(Model.Description)
+    </p>
+</div>
+
+
+<script language="Javascript">
+                $('@Html.Raw("#AchivmentDiv" + Model.AchivmentId.ToString())').mouseenter(function () {
+                    $('@Html.Raw("#AchivmentDivBtn" + Model.AchivmentId.ToString())').show();
+                    $('@Html.Raw("#AchivmentDiv" + Model.AchivmentId.ToString())').css("background", "#f5f5f0");
+    });
+    $('@Html.Raw("#AchivmentDiv" + Model.AchivmentId.ToString())').mouseleave(function () {
+        $('@Html.Raw("#AchivmentDivBtn" + Model.AchivmentId.ToString())').hide();
+        $('@Html.Raw("#AchivmentDiv" + Model.AchivmentId.ToString())').css("background", "none");
+                });
+</script>

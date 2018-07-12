@@ -1,0 +1,75 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.EducationMgtViewModel
+
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+@section Header{ Wykształcenie }
+
+
+<div id="userlist-section" style="margin-right:1em;">
+    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Nazwa szkoły/uczelni</th>
+                <th>Poziom szkoły/Wydział</th>
+                <th>Specjalizacja</th>
+                <th>Data rozpoczęcia</th>
+                <th>Data zakończenia</th>
+                <th>Aktualne</th>
+                <th class="text-right">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.List)
+            {
+                <tr>
+                    <td class="align-middle font-weight-bold">@Html.Name(u.EducationId.ToString()). </td>
+                    <td class="align-middle">
+                        @Html.Name(u.SchooleName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Department)
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Specialization)
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.StartDate.ToShortDateString())
+                    </td>
+                    <td class="align-middle">
+                        @if (u.CurrentPlaceOfEducation)
+                        {
+                            <text>Obecnie</text>
+                        }
+                        else
+                        {
+                            @Html.Name(u.EndDate.ToShortDateString())
+
+                        }
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.CurrentPlaceOfEducation.ToString())
+                    </td>
+
+
+
+                    <td class="text-right">
+                        <button type="button" class="btn btn-primary btn-sm far fa-edit text-right" data-toggle="modal" data-target="@Html.Raw("#EditEducation" + u.EducationId)"> Edytuj</button>
+                        <button type="button" class="btn btn-danger btn-sm far fa-minus-square text-right" onclick="location.href='@Url.Action("RemoveEducation", "AdminPanel", new { id = u.EducationId })';return false;"> Usun</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+<button type="button" class="btn btn-success far fa-plus-square" data-toggle="modal" data-target="#AddNewEducation"> Utwórz <i>wykształcenie</i></button>
+@Html.Partial("EducationMgt/_AddNewEducationPartialView", new MyPortfolioWebApp.Models.ViewModels.EducationViewModel())
+@foreach (var u in Model.List)
+{
+    @Html.Partial("EducationMgt/_EditEducationPartialView", u)
+
+}
+

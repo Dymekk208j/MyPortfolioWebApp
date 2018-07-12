@@ -1,0 +1,47 @@
+﻿@model MyPortfolioWebApp.Models.DatabaseModels.Project
+
+
+
+<div id="@Html.Raw("ComProjDiv" + Model.ProjectId.ToString())">
+    <div id="@Html.Raw("ComProjDivBtns" + Model.ProjectId.ToString())" style="display: none;">
+        @*<button type="button" class="btn btn-outline-primary button-xs fas fa-chevron-circle-up"></button>
+        <button type="button" class="btn btn-outline-primary button-xs fas fa-chevron-circle-down"></button>*@
+        <button type="button" class="btn btn-outline-danger button-xs far fa-minus-square" onclick="location.href = '@Url.Action("RemoveProjectFromCv", "AdminPanel", new { id = Model.ProjectId })';return false;"></button>
+
+    </div>
+    <p>
+        <b>@Html.Name(Model.Title)</b><br />
+        @*<i>@Html.Name(Model.Technologies)</i><br />*@
+        @if (Model.GetTechnologies(Model.ProjectId) != null)
+        {
+            int z = 0;
+            foreach (var j in Model.GetTechnologies(Model.ProjectId))
+            {
+
+                if (Model.GetTechnologies(Model.ProjectId).Count > 1 && z < Model.GetTechnologies(Model.ProjectId).Count - 1)
+                {
+                    <i>@Html.Raw(j.Name),</i>
+                }
+                else
+                {
+                    <i>@Html.Raw(j.Name)</i>
+                }
+                z++;
+            }
+        }
+        <br />
+        @Html.Name(Model.ShordDescription)
+    </p>
+</div>
+
+
+<script language="Javascript">
+                $('@Html.Raw("#ComProjDiv" + Model.ProjectId.ToString())').mouseenter(function () {
+                    $('@Html.Raw("#ComProjDivBtns" + Model.ProjectId.ToString())').show();
+                    $('@Html.Raw("#ComProjDiv" + Model.ProjectId.ToString())').css("background", "#f5f5f0");
+    });
+    $('@Html.Raw("#ComProjDiv" + Model.ProjectId.ToString())').mouseleave(function () {
+        $('@Html.Raw("#ComProjDivBtns" + Model.ProjectId.ToString())').hide();
+        $('@Html.Raw("#ComProjDiv" + Model.ProjectId.ToString())').css("background", "none");
+                });
+</script>

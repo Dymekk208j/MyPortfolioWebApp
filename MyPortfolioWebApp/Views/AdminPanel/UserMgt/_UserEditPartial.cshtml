@@ -1,0 +1,81 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.UpdateViewModel
+@{
+    using (Html.BeginForm("UpdateUser", "Account"))
+    {
+        <div class="modal fade" id="@Html.Raw("ModalWindow" + Model.UserName)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edycja użytkownika @Html.Name(Model.UserName)</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @Html.ValidationMessageFor(model => model.UserName, "*", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.UserName, new { htmlAttributes = new { @class = "control-label" }, })
+                        @Html.EditorFor(m => m.UserName, new { htmlAttributes = new { @class = "form-control" }, })
+
+                        @Html.ValidationMessageFor(model => model.FirstName, "*", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.FirstName, new { htmlAttributes = new { @class = "control-label" }, })
+                        @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control" }, })
+
+                        @Html.ValidationMessageFor(model => model.LastName, "*", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.LastName, new { htmlAttributes = new { @class = "control-label" }, })
+                        @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" }, })
+
+                        @Html.ValidationMessageFor(model => model.Email, "*", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.Email, new { htmlAttributes = new { @class = "control-label" }, })
+                        @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" }, })
+
+                        @Html.ValidationMessageFor(model => model.Blocked, "*", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.Blocked, new { htmlAttributes = new { @class = "control-label" }, })
+                        @Html.CheckBoxFor(m => m.Blocked, new { htmlAttributes = new { @class = "form-control" }, })
+
+                        @Html.HiddenFor(m => m.Id, new { htmlAttributes = new { @class = "form-control" }, })
+                        @Html.HiddenFor(m => m.Password, new { htmlAttributes = new { @class = "form-control" }, })
+                        @Html.HiddenFor(m => m.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" }, })
+
+
+                        <br />
+                        @{
+                            //TODO: Dodać obsługę generowania nowego hasła i propozycji zmiany hasła.
+                        }
+                        <button href="#" onclick="" class="btn btn-primary btn-sm  mb-1" id="btn_prev" style="margin-left: 0.5em;">
+                            Zaproponuj zmiane hasła
+                        </button>
+                        <button href="#" onclick="" class="btn btn-danger btn-sm mb-1" id="btn_prev" style="margin-left: 0.5em;">
+                            Wygeneruj nowe hasło
+                        </button>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Modal -->
+    <div class="modal fade" id="@Html.Raw("Delete" + Model.UserName)" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Ostrzeżenie!</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Czy na pewno chcesz usunać użytkownika @Html.Name(Model.UserName)? Ta operacja będzie nieodwracalna. 
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("DeleteUser", "Account", new { userId = Model.Id })'">Tak</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

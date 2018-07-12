@@ -1,0 +1,46 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.LoginViewModel
+<section id="loginForm" style="background: white;">
+    <div class="row">
+        <div class="col offset-5">
+            @using (Html.BeginForm("Login", "Account", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+            {
+
+                @Html.AntiForgeryToken()
+                <h4>Wpisz dane do logowania</h4>
+                <hr/>
+                @Html.ValidationSummary(true)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName)
+                    <div class="col">
+                        @Html.TextBoxFor(m => m.UserName, new {@class = "form-control", style = "width: 250px;"})
+                        @Html.ValidationMessageFor(m => m.UserName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password)
+                    <div class="col" style="text-align: center;">
+                        @Html.PasswordFor(m => m.Password, new {@class = "form-control", style = "width: 250px;"})
+                        @Html.ValidationMessageFor(m => m.Password)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col">
+                        <input type="submit" value="Zaloguj" class="btn btn-default"/>
+                    </div>
+                </div>
+                <p>
+                    @Html.ActionLink("Utwórz", "Register") nowe konto.
+                </p>
+            }
+
+        </div>
+    </div>
+</section>

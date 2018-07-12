@@ -1,0 +1,862 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.CvViewModel
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+@section Header{ Edytuj <i>CV</i> }
+
+<div class="container">
+    <div class="card mb-3" style="margin-bottom:2em; margin-top:2em; border-color: gray;">
+
+        <div class="card-body">
+
+
+            <div class="row" style="margin-top: 1em;" id="AboutMeRow">
+
+                <div class="col-2" style="padding-left: 0 !important;">
+                    <img src="@Html.Raw(Model.PrivateInformationViewModel.ImageLink)" />
+                </div>
+                <div class="col text-right">
+                    <div id="AboutMeBtn" style="display: none;"><button type="button" class="btn btn-outline-secondary button-xs far fa-edit" data-toggle="modal" data-target="#EditPrivatInformation"></button><br /></div>
+                    @Html.Raw(Model.PrivateInformationViewModel.Street + " " + Model.PrivateInformationViewModel.HouseNumber + "/" + Model.PrivateInformationViewModel.FlatNumber)<br />
+                    @Html.Raw(Model.PrivateInformationViewModel.PostCode + " " + Model.PrivateInformationViewModel.City)<br />
+                    @Html.Raw(Model.PrivateInformationViewModel.PhoneNumber + " | " + Model.PrivateInformationViewModel.HomePage)<br />
+                    @Html.Raw(Model.PrivateInformationViewModel.Email)<br />
+                </div>
+            </div>
+
+
+            @{ using (Html.BeginForm("UpdatePrivateInformation", "AdminPanel"))
+                {
+                    <div class="modal fade" id="EditPrivatInformation" tabindex="-1" role="dialog" aria-labelledby="EditPrivatInformationLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="EditPrivatInformationLabel">Edytuj dane osobowe</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @Html.HiddenFor(model => model.PrivateInformationViewModel.PrivateInformationId)
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.FirstName, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.FirstName, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.FirstName, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.LastName, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.LastName, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.LastName, new { htmlAttributes = new { @class = "form-control" }, })
+
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.Email, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.Email, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.Email, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.HomePage, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.HomePage, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.HomePage, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.PostCode, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.PostCode, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.PostCode, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.City, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.City, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.City, new { htmlAttributes = new { @class = "form-control" }, })
+
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.Street, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.Street, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.Street, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.HouseNumber, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.HouseNumber, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.HouseNumber, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.FlatNumber, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.FlatNumber, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.FlatNumber, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.ImageLink, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.ImageLink, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.ImageLink, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationMessageFor(model => model.PrivateInformationViewModel.PhoneNumber, "*", new { @class = "text-danger" })
+                                    @Html.LabelFor(model => model.PrivateInformationViewModel.PhoneNumber, new { htmlAttributes = new { @class = "control-label" }, })
+                                    @Html.EditorFor(model => model.PrivateInformationViewModel.PhoneNumber, new { htmlAttributes = new { @class = "form-control" }, })
+
+                                    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="row" style="margin-top: 1em; background-color: cornflowerblue;" id="MeBar">
+                <div class="col text-left">
+                    <h3 style="color: white;">@Html.Raw(Model.PrivateInformationViewModel.FirstName + " " + Model.PrivateInformationViewModel.LastName)</h3>
+                </div>
+            </div>
+
+            <script language="Javascript">
+                $('#AboutMeRow').mouseenter(function () {
+                    $('#AboutMeBtn').show();
+                });
+                $('#AboutMeRow').mouseleave(function () {
+                    $('#AboutMeBtn').hide();
+                });
+            </script>
+
+            <div class="row" style="margin-top: 1em; border-bottom-style: dotted; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 0.2em;" id="CommercialProjectsRow">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Projekty komercyjne</h6>
+                    <button type="button" class="btn btn-success btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddCommercialProject"> Dodaj projekt do CV</button>
+                </div>
+                <div class="col text-left">
+                    @{
+                        foreach (var a in Model.Projects.Where(x => x.Commercial && x.ShowInCv))
+                        {
+                            @Html.Partial("CvMgt/_ProjectPartialView", a)
+                        }
+                    }
+
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddProjectToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddCommercialProject" tabindex="-1" role="dialog" aria-labelledby="AddCommercialProjectLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Dodaj projekt</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Projects.Any(m => m.ShowInCv == false && m.Commercial))
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz projekt do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedProject, new SelectList(Model.Projects.Where(m => m.ShowInCv == false && m.Commercial), "ProjectId", "Title"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak projektów do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 0.2em;" id="NotCommercialProjectsRow">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Projekty niekomercyjne</h6>
+                    <button type="button" class="btn btn-success btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddNonCommercialProject"> Dodaj projekt do CV</button>
+                </div>
+                <div class="col text-left">
+                    @{
+                        foreach (var a in Model.Projects.Where(x => x.Commercial == false && x.ShowInCv))
+                        {
+                            @Html.Partial("CvMgt/_ProjectPartialView", a)
+                        }
+                    }
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddProjectToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddNonCommercialProject" tabindex="-1" role="dialog" aria-labelledby="AddNonCommercialProjectLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Dodaj projekt</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Projects.Where(m => m.ShowInCv == false && m.Commercial == false).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz projekt do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedProject, new SelectList(Model.Projects.Where(m => m.ShowInCv == false && m.Commercial == false), "ProjectId", "Title"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak projektów do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+            <div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 1em;" id="TechnologiesRow">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Technologie</h6>
+
+                </div>
+                <div class="col text-left">
+                    <div id="VeryWell">
+                        <div class="form-inline" id="VeryWellHeader">
+                            <span style="font-weight: bold;">
+                                Dobra znajmość:
+                            </span>
+                            <div id="BtnAddVeryGoodKnowTechnology" style="display: none;">
+                                <button type="button" style="margin-left: 0.2em" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddVeryWellKnowTechnology"></button>
+                            </div>
+                        </div>
+                        @{
+                            foreach (var a in Model.Technologies.Where(x => x.LevelOfKnowledge == 0 && x.ShowInCv))
+                            {
+                                <div id="@Html.Raw("TechDiv" + a.TechnologyId)" class="form-inline">
+                                    <div id="@Html.Raw("BtnTechDiv" + a.TechnologyId)" style="display:none;"><button type="button" style="margin-left: 0.2em" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveTechnologyFromCv", "AdminPanel", new { id = a.TechnologyId })';return false;"></button></div>
+                                    @Html.Name(a.Name)
+                                </div>
+
+                                <script language="Javascript">
+                                    $('@Html.Raw("#TechDiv" + a.TechnologyId)').mouseenter(function () {
+                                        $('@Html.Raw("#BtnTechDiv" + a.TechnologyId)').show();
+                                        $('@Html.Raw("#TechDiv" + a.TechnologyId)').css("background", "#f5f5f0");
+                                    });
+                                    $('@Html.Raw("#TechDiv" + a.TechnologyId)').mouseleave(function () {
+                                        $('@Html.Raw("#BtnTechDiv" + a.TechnologyId)').hide();
+                                        $('@Html.Raw("#TechDiv" + a.TechnologyId)').css("background", "none");
+                                    });
+                                </script>
+                            }
+
+                        }
+                    </div>
+
+                    <div id="Well">
+                        <div class="form-inline" id="WellHeader">
+                            <span style="font-weight: bold;">
+                                Znajomość podstaw:
+                            </span>
+                            <div id="BtnAddWellKnowTechnology" style="display: none;">
+                                <button type="button" style="margin-left: 0.2em" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddWellKnowTechnology"></button>
+                            </div>
+                        </div>
+                        @{
+                            foreach (var a in Model.Technologies.Where(x => x.LevelOfKnowledge == 1 && x.ShowInCv))
+                            {
+                                <div id="@Html.Raw("TechDiv" + a.TechnologyId)" class="form-inline">
+                                    <div id="@Html.Raw("BtnTechDiv" + a.TechnologyId)" style="display:none;"><button type="button" style="margin-left: 0.2em" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveTechnologyFromCv", "AdminPanel", new { id = a.TechnologyId })';return false;"></button></div>
+                                    @Html.Name(a.Name)
+                                </div>
+
+                                <script language="Javascript">
+                                    $('@Html.Raw("#TechDiv" + a.TechnologyId)').mouseenter(function () {
+                                        $('@Html.Raw("#BtnTechDiv" + a.TechnologyId)').show();
+                                        $('@Html.Raw("#TechDiv" + a.TechnologyId)').css("background", "#f5f5f0");
+                                    });
+                                    $('@Html.Raw("#TechDiv" + a.TechnologyId)').mouseleave(function () {
+                                        $('@Html.Raw("#BtnTechDiv" + a.TechnologyId)').hide();
+                                        $('@Html.Raw("#TechDiv" + a.TechnologyId)').css("background", "none");
+                                    });
+                                </script>
+                            }
+
+                        }
+                    </div>
+
+                    <div id="know">
+                        <div class="form-inline" id="knowHeader">
+                            <span style="font-weight: bold;">
+                                Styczność z:
+                            </span>
+                            <div id="BtnAddKnowTechnology" style="display: none;">
+                                <button type="button" style="margin-left: 0.2em" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddKnowTechnology"></button>
+                            </div>
+                        </div>
+                        @{
+                            foreach (var a in Model.Technologies.Where(x => x.LevelOfKnowledge == 2 && x.ShowInCv))
+                            {
+                                <div id="@Html.Raw("TechDiv" + a.TechnologyId)" class="form-inline">
+                                    <div id="@Html.Raw("BtnTechDiv" + a.TechnologyId)" style="display:none;"><button type="button" style="margin-left: 0.2em" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveTechnologyFromCv", "AdminPanel", new { id = a.TechnologyId })';return false;"></button></div>
+                                    @Html.Name(a.Name)
+                                </div>
+
+                                <script language="Javascript">
+                                    $('@Html.Raw("#TechDiv" + a.TechnologyId)').mouseenter(function () {
+                                        $('@Html.Raw("#BtnTechDiv" + a.TechnologyId)').show();
+                                        $('@Html.Raw("#TechDiv" + a.TechnologyId)').css("background", "#f5f5f0");
+                                    });
+                                    $('@Html.Raw("#TechDiv" + a.TechnologyId)').mouseleave(function () {
+                                        $('@Html.Raw("#BtnTechDiv" + a.TechnologyId)').hide();
+                                        $('@Html.Raw("#TechDiv" + a.TechnologyId)').css("background", "none");
+                                    });
+                                </script>
+                            }
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddToCvVeryWellKnowTechnology", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddVeryWellKnowTechnology" tabindex="-1" role="dialog" aria-labelledby="AddVeryWellKnowTechnologyLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddVeryWellKnowTechnologyLabel">Dodaj projekt</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Technologies.Where(m => m.ShowInCv == false).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz technologie do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedTechnology, new SelectList(Model.Technologies.Where(m => m.ShowInCv == false), "TechnologyId", "Name"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak technologii do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <script language="Javascript">
+                $('#VeryWellHeader').mouseenter(function () {
+                    $('#BtnAddVeryGoodKnowTechnology').show();
+                    $('#VeryWellHeader').css("background", "#f5f5f0");
+                });
+                $('#VeryWellHeader').mouseleave(function () {
+                    $('#BtnAddVeryGoodKnowTechnology').hide();
+                    $('#VeryWellHeader').css("background", "none");
+                });
+            </script>
+
+            @{ using (Html.BeginForm("AddToCvWellKnowTechnology", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddWellKnowTechnology" tabindex="-1" role="dialog" aria-labelledby="AddWellKnowTechnologyLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddWellKnowTechnologyLabel">Dodaj projekt</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Technologies.Where(m => m.ShowInCv == false).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz technologie do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedTechnology, new SelectList(Model.Technologies.Where(m => m.ShowInCv == false), "TechnologyId", "Name"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak technologii do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <script language="Javascript">
+                $('#WellHeader').mouseenter(function () {
+                    $('#BtnAddWellKnowTechnology').show();
+                    $('#WellHeader').css("background", "#f5f5f0");
+                });
+                $('#WellHeader').mouseleave(function () {
+                    $('#BtnAddWellKnowTechnology').hide();
+                    $('#WellHeader').css("background", "none");
+                });
+            </script>
+
+            @{ using (Html.BeginForm("AddToCvKnowTechnology", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddKnowTechnology" tabindex="-1" role="dialog" aria-labelledby="AddKnowTechnologyLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddKnowTechnologyLabel">Dodaj projekt</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Technologies.Where(m => m.ShowInCv == false).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz technologie do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedTechnology, new SelectList(Model.Technologies.Where(m => m.ShowInCv == false), "TechnologyId", "Name"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak technologii do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <script language="Javascript">
+                $('#knowHeader').mouseenter(function () {
+                    $('#BtnAddKnowTechnology').show();
+                    $('#knowHeader').css("background", "#f5f5f0");
+                });
+                $('#knowHeader').mouseleave(function () {
+                    $('#BtnAddKnowTechnology').hide();
+                    $('#knowHeader').css("background", "none");
+                });
+            </script>
+
+            <div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 0.2em;" id="AchivmentsRow">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Osiągnięcia</h6>
+                    <button type="button" class="btn btn-success btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddAchivmentToCV"> Dodaj osiągnięcie do CV</button>
+
+                </div>
+                <div class="col text-left">
+                    @{
+                        foreach (var a in Model.Achivments.Where(x => x.ShowInCv))
+                        {
+                            @Html.Partial("CvMgt/_AchivmentPartialView", a)
+                        }
+                    }
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddAchivmentToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddAchivmentToCV" tabindex="-1" role="dialog" aria-labelledby="AddAchivmentToCVLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddAchivmentToCVLabel">Dodaj osiągnięcie</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Projects.Where(m => m.ShowInCv == false).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz osiągnięcie do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedAchivment, new SelectList(Model.Achivments.Where(m => m.ShowInCv == false), "AchivmentId", "Title"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak osiągnięć do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 1em;" id="AdditionalInfo">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Dodatkowe informacje</h6>
+
+                </div>
+                <div class="col text-left">
+                    <div id="Langs">
+                        <div class="form-inline" id="LangsHeader">
+                            <span style="font-weight: bold;">
+                                Języki obce:
+                            </span>
+                            <div id="BtnAddLangs" style="display: none;">
+                                <button type="button" style="margin-left: 0.2em" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddLangs"></button>
+                            </div>
+                        </div>
+                        @{
+                            foreach (var a in Model.AdditionalInfos.Where(x => x.ShowInCv && x.Type == 0))
+                            {
+                                <div id="@Html.Raw("AdditionalInfosDiv" + a.AdditionalInfoId)" class="form-inline">
+                                    @Html.Name(a.Title)
+                                    <div id="@Html.Raw("BtnAdditionalInfosDiv" + a.AdditionalInfoId)" style="display:none;">
+                                        <button type="button" style="margin-left: 0.2em" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveAdditionalInformationFromCv", "AdminPanel", new { id = a.AdditionalInfoId })';return false;"></button>
+                                    </div>
+
+                                </div>
+
+                                <script language="Javascript">
+                                    $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').mouseenter(function () {
+                                        $('@Html.Raw("#BtnAdditionalInfosDiv" + a.AdditionalInfoId)').show();
+                                        $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').css("background", "#f5f5f0");
+                                    });
+                                    $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').mouseleave(function () {
+                                        $('@Html.Raw("#BtnAdditionalInfosDiv" + a.AdditionalInfoId)').hide();
+                                        $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').css("background", "none");
+                                    });
+                                </script>
+                            }
+
+                        }
+                    </div>
+
+                    <div id="AddiSkills">
+                        <div class="form-inline" id="AddiSkillsHeader">
+                            <span style="font-weight: bold;">
+                                Dodatkowe umiejętności:
+                            </span>
+                            <div id="BtnAddiSkills" style="display: none;">
+                                <button type="button" style="margin-left: 0.2em" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddAddiSkill"></button>
+                            </div>
+                        </div>
+                        @{
+                            foreach (var a in Model.AdditionalInfos.Where(x => x.ShowInCv && x.Type == 1))
+                            {
+                                <div id="@Html.Raw("AdditionalInfosDiv" + a.AdditionalInfoId)" class="form-inline">
+                                    @Html.Name(a.Title)
+                                    <div id="@Html.Raw("BtnAdditionalInfosDiv" + a.AdditionalInfoId)" style="display:none;"><button type="button" style="margin-left: 0.2em" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveAdditionalInformationFromCv", "AdminPanel", new { id = a.AdditionalInfoId })';return false;"></button></div>
+
+                                </div>
+
+                                <script language="Javascript">
+                                    $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').mouseenter(function () {
+                                        $('@Html.Raw("#BtnAdditionalInfosDiv" + a.AdditionalInfoId)').show();
+                                        $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').css("background", "#f5f5f0");
+                                    });
+                                    $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').mouseleave(function () {
+                                        $('@Html.Raw("#BtnAdditionalInfosDiv" + a.AdditionalInfoId)').hide();
+                                        $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').css("background", "none");
+                                    });
+                                </script>
+                            }
+
+                        }
+                    </div>
+
+                    <div id="Intrested">
+                        <div class="form-inline" id="IntrestedHeader">
+                            <span style="font-weight: bold;">
+                                Zainteresowania:
+                            </span>
+                            <div id="BtnIntrested" style="display: none;">
+                                <button type="button" style="margin-left: 0.2em" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddIntrested"></button>
+                            </div>
+                        </div>
+                        @{
+                            foreach (var a in Model.AdditionalInfos.Where(x => x.ShowInCv && x.Type == 2))
+                            {
+                                <div id="@Html.Raw("AdditionalInfosDiv" + a.AdditionalInfoId)" class="form-inline">
+                                    @Html.Name(a.Title)
+                                    <div id="@Html.Raw("BtnAdditionalInfosDiv" + a.AdditionalInfoId)" style="display:none;"><button type="button" style="margin-left: 0.2em" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveAdditionalInformationFromCv", "AdminPanel", new { id = a.AdditionalInfoId })';return false;"></button></div>
+
+                                </div>
+
+                                <script language="Javascript">
+                                    $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').mouseenter(function () {
+                                        $('@Html.Raw("#BtnAdditionalInfosDiv" + a.AdditionalInfoId)').show();
+                                        $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').css("background", "#f5f5f0");
+                                    });
+                                    $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').mouseleave(function () {
+                                        $('@Html.Raw("#BtnAdditionalInfosDiv" + a.AdditionalInfoId)').hide();
+                                        $('@Html.Raw("#AdditionalInfosDiv" + a.AdditionalInfoId)').css("background", "none");
+                                    });
+                                </script>
+                            }
+
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddAdditionalInfoToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddLangs" tabindex="-1" role="dialog" aria-labelledby="AddLangsLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddLangsLabel">Dodaj <i>język obcy</i></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.AdditionalInfos.Where(m => m.ShowInCv == false && m.Type == 0).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz język obcy do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedAddtinionaInformation, new SelectList(Model.AdditionalInfos.Where(m => m.ShowInCv == false && m.Type == 0), "AdditionalInfoId", "Title"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak języków obcych do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <script language="Javascript">
+                $('#LangsHeader').mouseenter(function () {
+                    $('#BtnAddLangs').show();
+                    $('#LangsHeader').css("background", "#f5f5f0");
+                });
+                $('#LangsHeader').mouseleave(function () {
+                    $('#BtnAddLangs').hide();
+                    $('#LangsHeader').css("background", "none");
+                });
+            </script>
+
+            @{ using (Html.BeginForm("AddAdditionalInfoToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddAddiSkill" tabindex="-1" role="dialog" aria-labelledby="AddAddiLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddAddiLabel">Dodaj <i>dodatkową informacje</i></h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.AdditionalInfos.Where(m => m.ShowInCv == false && m.Type == 1).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz dodatkową informację do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedAddtinionaInformation, new SelectList(Model.AdditionalInfos.Where(m => m.ShowInCv == false && m.Type == 1), "AdditionalInfoId", "Title"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak dodatkowych informacji do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <script language="Javascript">
+                $('#AddiSkillsHeader').mouseenter(function () {
+                    $('#BtnAddiSkills').show();
+                    $('#AddiSkillsHeader').css("background", "#f5f5f0");
+                });
+                $('#AddiSkillsHeader').mouseleave(function () {
+                    $('#BtnAddiSkills').hide();
+                    $('#AddiSkillsHeader').css("background", "none");
+                });
+            </script>
+
+
+            <div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 0.2em;" id="EmploymentHistoriesRow">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Historia zatrudnienia</h6>
+                    <button type="button" class="btn btn-success btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddEmployhmentHistoryToCv"> Dodaj historie zatrudnienia do CV</button>
+
+                </div>
+                <div class="col text-left">
+                    <div id="EmpHistory" class="d-inline">
+                        @{
+                            foreach (var a in Model.EmploymentHistories.Where(m => m.ShowInCv).OrderByDescending(x => x.StartDate))
+                            {
+                                @Html.Partial("CvMgt/_EmploymentHistoryPartialView", a)
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddEmploymentHistroyToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddEmployhmentHistoryToCv" tabindex="-1" role="dialog" aria-labelledby="AddEmployhmentHistoryToCvLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddEmployhmentHistoryToCvLabel">Dodaj historię zatrudnienia</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.EmploymentHistories.Where(m => m.ShowInCv == false).Count() > 0)
+                                {
+                                    <div class="modal-body">
+                                        <p>Wybierz osiągnięcie do dodania:</p>
+                                        @Html.DropDownListFor(model => model.SelectedEmploymentHistory, new SelectList(Model.EmploymentHistories.Where(m => m.ShowInCv == false), "EmploymentHistoryId", "Position", "CompanyName"))
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak historii zatrudnienia do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="row" style="margin-top: 1em;" id="EducationRow">
+                <div class="col-4">
+                    <h6 style="color: cornflowerblue;">Wykształcenie</h6>
+                    <button type="button" class="btn btn-success btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddEducationToCv"> Dodaj wykształcenie do CV</button>
+
+                </div>
+                <div class="col text-left">
+                    <div id="educ" class="d-inline">
+                        @{
+                            foreach (var a in Model.Educations.Where(x => x.ShowInCv).OrderByDescending(x => x.StartDate))
+                            {
+                                @Html.Partial("CvMgt/_EducationPartialView", a)
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+
+            @{ using (Html.BeginForm("AddEducationToCv", "AdminPanel"))
+                {
+                    <div class="modal fade" id="AddEducationToCv" tabindex="-1" role="dialog" aria-labelledby="AddEducationToCvLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="AddEducationToCvLabel">Dodaj wykształcenie do CV</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                @if (Model.Educations.Where(m => m.ShowInCv == false).Count() > 0)
+                                {
+                                <div class="modal-body">
+                                    <p>Wybierz wykształcenie do dodania:</p>
+                                    @Html.DropDownListFor(model => model.SelectedEducation, new SelectList(Model.Educations.Where(m => m.ShowInCv == false), "EducationId", "SchooleName", "Department"))
+
+                                </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="modal-body">
+                                        <p>Brak wykształcenia do dodania</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>

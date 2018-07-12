@@ -1,0 +1,53 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.TempProjectListModelView
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+@section header{Lista tymczasowych projektów}
+
+<div id="userlist-section" style="margin-right:1em;">
+    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Tytuł</th>
+                <th>Autor</th>
+                <th>Data utworzenia</th>
+                <th>Komercyjny</th>
+                <th class="text-center" style="max-width: 40px !important; border-left: dotted; border-left-width: 1px;">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.List)
+            {
+                <tr>
+                    <td class="align-middle font-weight-bold">@Html.Name(u.TempProjectId.ToString()). </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Title)
+                    </td>
+                    <td class="align-middle">
+                        @*@Html.Name(MyPortfolioWebApp.Models.DatabaseModels.User.GetUserNameFromId(u.AuthorId))*@
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.DateTimeCreated.ToShortDateString())
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Commercial.ToString())
+                    </td>
+                    <td class="text-center" style="max-width: 60px !important; border-left: dotted; border-left-width: 1px;">
+                        <button type="button" class="btn btn-primary btn-sm far fa-edit text-right" onclick="location.href='@Url.Action("CreateTempProjectView2", "AdminPanel", new { tempProjectId = u.TempProjectId })';return false;"> Edytuj</button>
+                        <button type="button" class="btn btn-danger btn-sm far fa-minus-square text-right" onclick="location.href='@Url.Action("RemoveTempProject", "AdminPanel", new { tempProjectId = u.TempProjectId })';return false;"> Usuń</button>
+
+                        @*<button type="button" class="btn btn-secondary btn-sm mb-1" id="@Html.Raw("ModalBtn" + u.UserId.ToString())" style="margin-left: 0.1em;" data-toggle="modal" data-target="@Html.Raw("#ModalWindow" + u.UserId.ToString())">
+            Edytuj
+        </button>
+
+        <button href="#" data-toggle="modal" data-target="@Html.Raw("#Delete" + u.UserId.ToString())" class="btn btn-danger btn-sm mb-1" id="btn_mext" style="margin-left: 0.1em;">Usuń</button>*@
+
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

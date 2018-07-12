@@ -1,0 +1,169 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+
+    <link href="~/Lib/Styles/default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+</head>
+<body>
+    <section class="menu">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <a href="https://www.facebook.com/dymekk208j"><img src="~/Lib/images/facebook.png" /></a>
+                    <a href="https://github.com/Dymekk208j/"><img src="~/Lib/images/git.png" /></a>
+                    <a href="https://www.linkedin.com/in/damian-dziura-27a821114/"><img src="~/Lib/images/linkedin.png" /></a>
+                </div>
+
+                <div class="col">
+                    <div class="btn-group float-right">
+                        <button type="button" class="btn btn-success" onclick="location.href='@Url.Action("Index", "Home")';return false;">Strona główna</button>
+                        <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "Projects")';return false;">Projekty</button>
+                        <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "AboutMe")';return false;">O mnie</button>
+                        <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href = '@Url.Action("Index", "Cv")';return false;">CV</button>
+                        <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "Contact")';return false;">Kontakt</button>
+                        @if (Request.IsAuthenticated)
+                        {
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger">Wyloguj</button>
+                            }
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-outline-secondary" data-toggle="collapse" data-target="#LoginPanel">Logowanie</button>
+                        }
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-secondary d-lg-none dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-bars"></span>
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="@Url.Action("Index", "Projects")">Projekty</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "AboutMe")">O mnie</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Cv")">CV</a>
+                                <a class="dropdown-item" href="@Url.Action("Index", "Contact")">Kontakt</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @if (!Request.IsAuthenticated)
+                {
+
+                    @Html.Partial("_LoginPanelPartial", new MyPortfolioWebApp.Models.ViewModels.LoginViewModel())
+                }
+                else
+                {
+                    @Html.Partial("_LogedPanelPartial")
+                }
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2 admin_panel_left_header">
+                <div style="text-align: center;" ><h5>Panel administratora</h5></div>
+            </div>
+            <div class="col admin_panel_left_header">
+                <div style="text-align: center;" ><h5>@RenderSection("Header", required: false)</h5></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2 admin_panel_left">
+                <button type="button" class="btn btn-primary button_primary" onclick="location.href='@Url.Action("home", "AdminPanel")';return false;">Statystyki</button>
+
+                <button type="button" class="btn btn-primary button_primary" data-toggle="collapse" href="#rozwijana-lista3" aria-expanded="true" aria-controls="rozwijana-lista3">
+                    Zarządzanie stronami
+                </button>
+                <div id="rozwijana-lista3" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista3">
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EditAboutMe", "AdminPanel")';return false;">O mnie</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EditContact", "AdminPanel")';return false;">Kontakt</button>
+                    @*<button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EditCvPage", "AdminPanel")';return false;">CV</button>*@
+                    <button type="button" class="btn btn-info button_secondary">Główna</button>
+                </div>
+
+                <button type="button" class="btn btn-primary button_primary" data-toggle="collapse" href="#rozwijana-lista2" aria-expanded="true" aria-controls="rozwijana-lista2">
+                    Zarządzanie projektami
+                </button>
+                <div id="rozwijana-lista2" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista2">
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("ProjectsListView", "AdminPanel")';return false;">Lista projektów</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href = '@Url.Action("TempProjectsListView", "AdminPanel")';return false;">Lista tymczasowych projektów</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href = '@Url.Action("CreateTempProjectView", "AdminPanel")';return false;">Utwórz tymczasowy projekt</button>
+                </div>
+
+
+                <button type="button" class="btn btn-primary button_primary" data-toggle="collapse" href="#rozwijana-lista" aria-expanded="true" aria-controls="rozwijana-lista">
+                    Zarządzanie użytkownikami
+                </button>
+                <div id="rozwijana-lista" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista">
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("UserMgt", "AdminPanel")';return false;">Konta użytkowników</button>
+                    @{
+                        //TODO: Dodać edycje ról
+                    }
+                    @*<button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("RoleMgt", "AdminPanel", new { page = 0 })';return false;">Role</button>*@
+                </div>
+                
+                @*<button type="button" class="btn btn-primary button_primary"  onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>*@
+
+                <button type="button" class="btn btn-primary button_primary" data-toggle="collapse" href="#rozwijana-lista4" aria-expanded="true" aria-controls="rozwijana-lista4">
+                    Zarządzanie CV
+                </button>
+                <div id="rozwijana-lista4" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista3">
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EditCvPage", "AdminPanel")';return false;">Edytuj CV</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("AchivmentsEditView", "AdminPanel")';return false;">Osiągnięcia</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("AdditionalInformationMgtView", "AdminPanel")';return false;">Dodatkowe informacje</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EmploymentHistoryMgtView", "AdminPanel")';return false;">Historia zatrudnienia</button>
+                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EducationMgtView", "AdminPanel")';return false;">Wykształcenie</button>
+                </div>
+
+
+            </div>
+            <div class="col admin_panel_main_body" style="background: white !important;">
+                @RenderBody()
+            </div>
+
+        </div>
+    </div>
+
+
+<section class="myfooter">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <p>Damian Dziura 2018. All rights reserved.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@RenderSection("scripts", required: false)
+   
+</body>
+</html>

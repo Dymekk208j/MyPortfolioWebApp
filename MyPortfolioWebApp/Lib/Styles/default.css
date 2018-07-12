@@ -1,0 +1,188 @@
+body {
+    font-family: 'Varela', sans-serif;
+    background: #202020 !important;
+}
+
+.menu {
+    background: #333333;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-family: Arial;
+    font-size: 0.5em;
+  
+}
+
+.headers {
+    overflow: hidden;
+    padding: 7em 0 5em 0;
+    background: #202020;
+    -ms-background-size: cover;
+    background-size: cover;
+    text-align: center;
+    color: #ffffff;
+    color: rgba(255,255,255,.8);
+}
+
+
+
+.title {
+    margin-bottom: 3em;
+    margin-bottom: 1em;
+    text-transform: uppercase !important;
+}
+
+    .title h2 {
+        text-transform: uppercase;
+        font-size: 4.7em;
+        color: #FFF;
+
+    }
+
+    .title .byline {
+        font-size: 1.7em;
+        color: #6F6F6F;
+        color: rgba(255,255,255,.6);
+    }
+
+.my-card {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    color: grey;
+    text-shadow: 2px 2px 4px #808080;
+
+}
+
+.skills {
+    text-align: center;
+    color: black;
+    padding-bottom: 4em;
+    margin-top: 2em;
+    background: white;
+}
+
+    .skills h2 {
+        color: black;
+        text-shadow: 2px 2px 4px #808080;
+        font-size: 2.5em;
+    }
+
+    .skills .byline {
+        font-size: 1.7em;
+        color: #6F6F6F;
+    }
+
+
+.aboutme {
+    overflow: hidden;
+    padding: 2em 0 4em 4em;
+    background: #009e2d;
+    color: #ffffff;
+    color: rgba(255,255,255,.8);
+    text-align: center;
+}
+
+.aboutme a {
+    color: #ffffff;
+    color: rgba(255,255,255,1);
+}
+
+.aboutme .title h2 {
+        color: #FFF;
+        font-size: 3em;
+    }
+
+    .aboutme .title .byline {
+        color: #ffffff;
+        color: rgba(255,255,255,.6);
+    }
+
+.lastproject {
+    background: white;
+    overflow: hidden;
+    padding: 2em 0 4em 4em;
+    color: black;
+    text-align: center;
+}
+
+    .lastproject a {
+        color: black;
+    }
+
+    .lastproject .title h2 {
+        color: black;
+        text-shadow: 2px 2px 4px #808080;
+        font-size: 2.5em;
+    }
+
+    .lastproject .title .byline {
+        color: #6F6F6F;
+        font-size: 1.7em;
+    }
+
+.myfooter {
+    overflow: hidden;
+    padding: 1em 0 1em 0;
+    background: #202020;
+    background-size: cover;
+    text-align: center;
+    color: #ffffff;
+    color: rgba(255,255,255,.8);
+}
+
+.ErrorMsg {
+    margin-top: 0.5em;
+    font-size: 2em;
+    color: red;
+}
+
+.small-right-margin{
+    margin-right: 1em;
+}
+
+.admin_panel_left_header {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    background-color: #0c2f53;
+    border-bottom: 3px solid;
+    border-right: 1px solid;
+    border-bottom-color: cornflowerblue;
+    border-right-color: cornflowerblue;
+}
+    .admin_panel_left_header h5 {
+        color: white;
+        text-shadow: 2px 2px 4px #808080;       
+    }
+.admin_panel_left {
+
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 20px;
+    background-color: #007bff;
+
+    min-height: 750px !important;
+}
+    .admin_panel_left .button_primary {
+        width: 100% !important;
+        border-radius: 0;
+        border-bottom-color: cornflowerblue;
+    }
+
+    .admin_panel_left .button_secondary {
+        width: 100% !important;
+        border-radius: 0;   
+        border-bottom-color: darkcyan !important;
+    }
+
+    .admin_panel_main_body{
+        padding-top: 1em;
+        
+    }
+.button-xs {
+    padding: 0.2rem 0.2rem !important;
+    font-size: 0.875rem !important;
+    line-height: 0.75 !important;
+    border-radius: 0.2rem !important;
+    margin-bottom: 0.1rem;
+    margin-top: 0.1rem;
+    border-width: 0 !important;
+}

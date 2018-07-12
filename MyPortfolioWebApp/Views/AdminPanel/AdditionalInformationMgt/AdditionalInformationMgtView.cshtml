@@ -1,0 +1,146 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.AdditionalInformationMgtViewModel
+@{
+    ViewBag.Title = "AdditionalInformationMgtView";
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+
+@section Header{ Edytuj <i>Dodatkowe informacje</i> }
+
+<div class="row">
+    <div class="col">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-ForeignLanguages-tab" data-toggle="pill" href="#pills-ForeignLanguages" role="tab" aria-controls="pills-ForeignLanguages" aria-selected="true">Języki obce</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-AdditionalIfnormation-tab" data-toggle="pill" href="#pills-AdditionalIfnormation" role="tab" aria-controls="pills-AdditionalIfnormation" aria-selected="false">Dodatkowe umiejętności</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-interests-tab" data-toggle="pill" href="#pills-interests" role="tab" aria-controls="pills-interests" aria-selected="false">Zainteresowania</a>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <div class="tab-content" id="pills-tabContent">
+
+            <div class="tab-pane fade show active" id="pills-ForeignLanguages" role="tabpanel" aria-labelledby="pills-ForeignLanguages-tab">
+                <div id="ForeignLanguages-section" style="margin-right:1em;">
+                    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int a = 0;
+                                foreach (var u in Model.List.Where(w => w.Type == 0))
+                                {
+                                    <tr>
+                                        <td class="align-middle font-weight-bold">@Html.Raw(a)</td>
+                                        <td class="align-middle">
+                                            @Html.Name(u.Title)
+                                        </td>
+                                        <td class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">
+
+                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm far fa-minus-square" onclick="location.href='@Url.Action("RemoveAdditionalInformation", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
+
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="tab-pane fade" id="pills-AdditionalIfnormation" role="tabpanel" aria-labelledby="pills-AdditionalIfnormation-tab">
+                <div id="AdditionalIfnormation-section" style="margin-right:1em;">
+                    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                a = 0;
+                                foreach (var u in Model.List.Where(w => w.Type == 1))
+                                {
+                                    <tr>
+                                        <td class="align-middle font-weight-bold">@Html.Raw(a)</td>
+                                        <td class="align-middle">
+                                            @Html.Name(u.Title)
+                                        </td>
+                                        <td class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">
+
+                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm  far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAchivmentFromCv", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
+
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div class="tab-pane fade" id="pills-interests" role="tabpanel" aria-labelledby="pills-contact-tab">
+                <div id="interests-section" style="margin-right:1em;">
+                    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                a = 0;
+                                foreach (var u in Model.List.Where(w => w.Type == 2))
+                                {
+                                    <tr>
+                                        <td class="align-middle font-weight-bold">@Html.Raw(a)</td>
+                                        <td class="align-middle">
+                                            @Html.Name(u.Title)
+                                        </td>
+                                        <td class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">
+
+                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAchivmentFromCv", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
+
+
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-success far fa-plus-square" data-toggle="modal" data-target="#AddNewAdditionalInfo"> Utwórz nową <i>Dodatkową informację</i></button>
+@Html.Partial("AdditionalInformationMgt/_AddAditionalInformationView", new MyPortfolioWebApp.Models.ViewModels.AdditionalInfoViewModel())

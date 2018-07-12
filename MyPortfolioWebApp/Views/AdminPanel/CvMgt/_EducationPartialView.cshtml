@@ -1,0 +1,47 @@
+﻿@model MyPortfolioWebApp.Models.DatabaseModels.Education
+
+
+<div id="@Html.Raw("EducationDiv" + Model.EducationId.ToString())">
+    <div id="@Html.Raw("EducationDivBtn" + Model.EducationId.ToString())" style="display: none;">
+        @*<button type="button" class="btn btn-outline-primary button-xs fas fa-chevron-circle-up"></button>
+        <button type="button" class="btn btn-outline-primary button-xs fas fa-chevron-circle-down"></button>*@
+        <button type="button" class="btn btn-outline-danger button-xs far fa-minus-square" onclick="location.href='@Url.Action("RemoveEducationFromCv", "AdminPanel", new { id = Model.EducationId })';return false;"></button>
+
+    </div>
+    <p>
+        <span>
+            <b>
+                @Html.Name(Model.SchooleName + ", ")
+                @Html.Name(Model.Department + ", ")
+                @Html.Name(Model.Specialization)
+            </b>
+        </span>
+        <br />
+        <span>
+            <i>
+                @Html.Name(Model.StartDate.ToShortDateString() + " - ")
+                @if (Model.CurrentPlaceOfEducation)
+                {
+                    <text>Obecnie</text>
+                }
+                else
+                {
+                    @Html.Name(Model.EndDate.ToShortDateString())
+
+                }
+            </i>
+        </span>
+    </p>
+</div>
+
+
+<script language="Javascript">
+                $('@Html.Raw("#EducationDiv" + Model.EducationId.ToString())').mouseenter(function () {
+                    $('@Html.Raw("#EducationDivBtn" + Model.EducationId.ToString())').show();
+                    $('@Html.Raw("#EducationDiv" + Model.EducationId.ToString())').css("background", "#f5f5f0");
+    });
+    $('@Html.Raw("#EducationDiv" + Model.EducationId.ToString())').mouseleave(function () {
+        $('@Html.Raw("#EducationDivBtn" + Model.EducationId.ToString())').hide();
+        $('@Html.Raw("#EducationDiv" + Model.EducationId.ToString())').css("background", "none");
+                });
+</script>

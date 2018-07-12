@@ -1,0 +1,149 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+
+@section Header{Edytuj projekt}
+
+
+@using (Html.BeginForm("UploadProjImage", "AdminPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="modal fade" id="AddImage" tabindex="-1" role="dialog" aria-labelledby="AddImageLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddImageLabel">Dodaj zdjęcie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.HiddenFor(m => m.ProjectId)
+                    <div>
+                        @Html.TextBox("file", "", new { type = "file" }) <br/>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@{
+    using (Html.BeginForm("UpdateProject", "AdminPanel"))
+    {
+        @Html.HiddenFor(m => m.ProjectId)
+
+
+        <p>
+            @Html.ValidationMessageFor(model => model.Title, "*", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.Title, new { htmlAttributes = new { @class = "control-label" }, })
+            @Html.EditorFor(m => m.Title, new { htmlAttributes = new { @class = "form-control" }, })
+        </p>
+        <p id="TechnologiesParagraf">
+            <b>Technologie: </b>
+            @if (Model.Technologies != null)
+            {
+                int z = 0;
+                foreach (var j in Model.Technologies)
+                {
+
+                    if (Model.Technologies.Count > 1 && z < Model.Technologies.Count - 1)
+                    {
+                        <i>@Html.Raw(j.Name),</i>
+                    }
+                    else
+                    {
+                        <i>@Html.Raw(j.Name)</i>
+                    }
+                    z++;
+                }
+            }
+
+            <button id="AddTechnology" style="display: none; margin-left: 0.2em" type="button" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddTechnologyToTempProject"></button>
+        </p>
+        <p>
+            <button id="AddImgBtn" style="margin-left: 0.2em" type="button" class="btn btn-primary btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddImage"> Dodaj zdjecie do projektu</button>
+            <br/>
+            <b>Zdjęcia: </b>
+            @foreach (var i in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+            {
+                @Html.Raw(i.FileName + ", ")
+            }
+        </p>
+        <p>
+            @Html.ValidationMessageFor(model => model.ImageLink, "*", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.ImageLink, new { htmlAttributes = new { @class = "control-label" }, })
+            @Html.EditorFor(m => m.ImageLink, new { htmlAttributes = new { @class = "form-control" }, })
+        </p>
+        <p>
+            <label class="form-check-label">
+                Komercyjny
+                @*<input class="form-check-inline" type="checkbox" name="Commercial" id="CommercialCB" } />*@
+                @Html.CheckBoxFor(m => m.Commercial)
+
+            </label>
+        </p>
+
+        <p>
+            @Html.ValidationMessageFor(model => model.ShordDescription, "*", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.ShordDescription, new { htmlAttributes = new { @class = "control-label" }, })
+            @Html.TextAreaFor(model => model.ShordDescription, new { @class = "form-control", style = "width:100%; height: 100px;" })
+        </p>
+        <p>
+            @Html.ValidationMessageFor(model => model.FullDescription, "*", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.FullDescription, new { htmlAttributes = new { @class = "control-label" }, })
+            @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control", style = "width:100%; height: 250px;" })
+        </p>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+        <button type="button" class="btn btn-danger far fa-minus-square float-sm-right" style="margin-bottom: 1em; margin-left: 1em;" onclick="location.href='@Url.Action("RemoveTempProject", "AdminPanel", new { projectId = Model.ProjectId })';return false;"> Usuń</button>
+        <input type="submit" class="btn btn-secondary float-sm-right" value="Zapisz"  style="margin-bottom: 1em; margin-left: 1em;">
+
+
+        <div class="modal fade" id="AddTechnologyToTempProject" tabindex="-1" role="dialog" aria-labelledby="AddTechnologyToTempProjectLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddTechnologyToTempProjectLabel">Dodaj technologię</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Wybierz technologie do dodania:</p>
+                        @Html.DropDownListFor(model => model.SelectedTechnology, new SelectList(Model.GetRemaningTechnologies(Model), "TechnologyId", "Name"))
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    }
+}
+
+
+
+<script language="Javascript">
+    $('#TechnologiesParagraf').mouseenter(function () {
+        $('#AddTechnology').show();
+        $('#TechnologiesParagraf').css("background", "#f5f5f0");
+    });
+    $('#TechnologiesParagraf').mouseleave(function () {
+        $('#AddTechnology').hide();
+        $('#TechnologiesParagraf').css("background", "none");
+    });
+</script>

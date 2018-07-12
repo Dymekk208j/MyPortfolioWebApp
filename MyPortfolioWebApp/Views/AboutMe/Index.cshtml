@@ -1,0 +1,18 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.AboutMeViewModel
+
+<section style="background: white;">
+    <div class="container">
+        <div class="card mb-3" style="margin-bottom:2em; margin-top:2em;">
+
+            <div class="card-body">
+                <img class="float-md-left rounded" src="@Html.Raw(Model.ImageLink)" style="margin-right:2em; margin-top:1.2em; margin-bottom:0.2em;" />
+                <div class="media-body">
+                    <p style="text-indent: 2%;">
+                        <h3 class="mb-0">@Html.Name(Model.Title)</h3>
+                            @Html.Name(Model.Text)    
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

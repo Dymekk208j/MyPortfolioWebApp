@@ -1,0 +1,45 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectListModelView
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+@section header{Lista projektów}
+
+<div id="userlist-section" style="margin-right:1em;">
+    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Tytuł</th>
+                <th>Autor</th>
+                <th>Data utworzenia</th>
+                <th>Komercyjny</th>
+                <th class="text-center" style="max-width: 40px !important; border-left: dotted; border-left-width: 1px;">Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.List)
+            {
+                <tr>
+                    <td class="align-middle font-weight-bold">@Html.Name(u.ProjectId.ToString()). </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Title)
+                    </td>
+                    <td class="align-middle">
+                        @*@Html.Name(MyPortfolioWebApp.Models.DatabaseModels.User.GetUserNameFromId(u.AuthorId))*@
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.DateTimeCreated.ToShortDateString())
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Commercial.ToString())
+                    </td>
+                    <td class="text-center" style="max-width: 60px !important; border-left: dotted; border-left-width: 1px;">
+                        <button type="button" class="btn btn-primary btn-sm far fa-edit text-right" onclick="location.href='@Url.Action("EditProjectView", "AdminPanel", new { projectId = u.ProjectId })';return false;"> Edytuj</button>
+                        <button type="button" class="btn btn-danger btn-sm far fa-minus-square text-right" onclick="location.href='@Url.Action("RemoveProject", "AdminPanel", new { projectId = u.ProjectId })';return false;"> Usuń</button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,165 @@
+﻿@using AutoMapper
+@using MyPortfolioWebApp.Models
+@using MyPortfolioWebApp.Models.ViewModels
+@model MyPortfolioWebApp.Models.ViewModels.UserListViewModel
+
+<button href="#serchDiv" class="btn btn-info btn-sm float-right mb-1" data-toggle="collapse" style="margin-right: 1em;">Wyszukiwarka</button>
+<div id="serchDiv" class="collapse">
+
+    <input type="text" placeholder="Login" id="textbox_login" />
+    <input type="text" placeholder="First Name" id="textbox_FirstName" />
+    <input type="text" placeholder="Last Name" id="textbox_LastName" />
+    <input type="text" placeholder="E-mail" id="textbox_email" />
+
+    <button href="#" onclick="filtrFunction()" class="btn btn-info btn-sm mb-1" id="btn_filter" style="margin-left: 0.5em;">Filtr</button>
+
+    <script>
+        function filtrFunction() {
+            var vlogin = $('#textbox_login').val();
+            var vFirstName = $('#textbox_FirstName').val();
+            var vLastName = $('#textbox_LastName').val();
+            var vEmail = $('#textbox_email').val();
+
+                            $.ajax({
+                                url: '@Url.Action("UserMgt", "AdminPanel")' ,
+                                type: 'GET',
+                                contentType: 'application/json; charset=utf-8',
+                                data: { 'login': vlogin, 'FirstName': vFirstName, 'LastName': vLastName, 'email': vEmail },
+                                success: function (result) { $('#UserList').html(result) }
+                            });
+                            return false;
+        }
+
+        function clearFilters() {
+            var vlogin = "";
+            var vFirstName = "";
+            var vLastName = "";
+            var vEmail = "";
+
+                            $.ajax({
+                                url: '@Url.Action("UserMgt", "AdminPanel")' ,
+                                type: 'GET',
+                                contentType: 'application/json; charset=utf-8',
+                                data: { 'login': vlogin, 'FirstName': vFirstName, 'LastName': vLastName, 'email': vEmail },
+                                success: function (result) { $('#UserList').html(result) }
+                            });
+                            return false;
+        }
+
+        function nextPage() {
+            var vlogin = "";
+            var vFirstName = "";
+            var vLastName = "";
+            var vEmail = "";
+
+                            $.ajax({
+                                url: '@Url.Action("UserMgt", "AdminPanel")' ,
+                                type: 'GET',
+                                contentType: 'application/json; charset=utf-8',
+                                data: { 'page': @Html.Raw(Model.Page + 1) ,'login': vlogin, 'FirstName': vFirstName, 'LastName': vLastName, 'email': vEmail },
+                                success: function (result) { $('#UserList').html(result) }
+                            });
+                            return false;
+        }
+
+        function prevPage() {
+            var vlogin = "";
+            var vFirstName = "";
+            var vLastName = "";
+            var vEmail = "";
+
+                            $.ajax({
+                                url: '@Url.Action("UserMgt", "AdminPanel")' ,
+                                type: 'GET',
+                                contentType: 'application/json; charset=utf-8',
+                                data: { 'page': @Html.Raw(Model.Page - 1) ,'login': vlogin, 'FirstName': vFirstName, 'LastName': vLastName, 'email': vEmail },
+                                success: function (result) { $('#UserList').html(result) }
+                            });
+                            return false;
+        }
+    </script>
+
+
+</div>
+
+@if (!string.IsNullOrEmpty(Model.Filters))
+{
+    @Html.Raw(Model.Filters)
+    <button href="#" onclick="clearFilters()" class="btn btn-sm btn-danger" id="btn_filtr" style="margin-left: 1em; margin-bottom: 1em;">Usuń filtry</button>
+
+}
+
+<div id="userlist-section" style="margin-right:1em;">
+    <table class="table table-hover table-striped table-sm" style="border:solid; border-width: 1px;">
+        <thead class="thead-dark">
+            <tr>
+                <th>#</th>
+                <th>Login</th>
+                <th>E-mail</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th class="text-center" style="max-width: 40px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+            </tr>
+        </thead>
+        <tbody>        
+        @{ int a = 0;}
+        @foreach (var u in Model.List)
+            {
+                <tr>
+                    <td class="align-middle font-weight-bold">@Html.Name(a.ToString()). </td>
+                    <td class="align-middle">
+                        @Html.Name(u.UserName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.Email)
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.FirstName)
+                    </td>
+                    <td class="align-middle">
+                        @Html.Name(u.LastName)
+                    </td>
+                    <td class="text-center" style="max-width: 60px !important; border-left: dotted; border-left-width: 1px;">
+
+                        <button type="button" class="btn btn-secondary btn-sm mb-1" id="@Html.Raw("ModalBtn" + u.UserName)" style="margin-left: 0.1em;" data-toggle="modal" data-target="@Html.Raw("#ModalWindow" + u.UserName)">
+                            Edytuj
+                        </button>
+
+                        <button href="#" data-toggle="modal" data-target="@Html.Raw("#Delete" + u.UserName)" class="btn btn-danger btn-sm mb-1" id="btn_mext" style="margin-left: 0.1em;">Usuń</button>
+
+
+                    </td>
+                </tr>
+                a++;
+            }
+
+        </tbody>
+    </table>
+</div>
+
+@foreach (var u in Model.List)
+{
+    var z = Mapper.Map<ApplicationUser, UpdateViewModel>(u);
+
+    @Html.Partial("UserMgt/_UserEditPartial", z)
+}
+
+
+<div class="row">
+    <div class="col">
+        @if (Model.IsPreviousPage && string.IsNullOrEmpty(Model.Filters))
+        {
+            <button href="#" onclick="prevPage()" class="btn btn-primary btn-sm mb-1" id="btn_prev" style="margin-left: 0.5em;">Poprzednia strona</button>
+        }
+
+        @if (Model.IsNextPage && string.IsNullOrEmpty(Model.Filters))
+        {
+            <button href="#" onclick="nextPage()" class="btn btn-primary btn-sm mb-1" id="btn_mext" style="margin-left: 0.5em;">Następna strona</button>
+        }
+    </div>
+
+    <div class="col">
+        <div class="float-right" style="margin-right: 1em;"><h6>Strona: @Html.Name((Model.Page + 1).ToString()) z @Html.Name((Model.MaxPage() + 1).ToString()) </h6></div>
+    </div>
+
+</div>

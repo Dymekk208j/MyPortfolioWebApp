@@ -1,0 +1,63 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
+<div class="row">
+    <div class="col">
+        <div class="card mb-3" style="margin-bottom:2em;">
+            <div class="card-header" style="padding-bottom: 0 !important; padding-top: 3px !important;">
+                <blockquote class="blockquote">
+                    <h3 class="mb-0">@Html.DisplayFor(m => m.Title)</h3>
+                    <footer class="blockquote-footer">
+                        <b>Data utworzenia:</b> @Html.Name(Model.DateTimeCreated.ToShortDateString())
+                        @{
+                            //TODO: Poprawić wyświetlanie autora
+                        }
+                        @*<b style="margin-left: 1em;">Autor:</b> <a href="#">@Html.Name(MyPortfolioWebApp.Models.DatabaseModels.User.GetUserNameFromId(Model.AuthorId)) </a>*@
+                        <b style="margin-left: 1em;">Technologie:</b>
+                        @if (Model.GetTechnologies(Model.ProjectId) != null)
+                        {
+                            int a = 0;
+                            foreach (var i in Model.GetTechnologies(Model.ProjectId))
+                            {
+
+                                if (Model.GetTechnologies(Model.ProjectId).Count > 1 && a < Model.GetTechnologies(Model.ProjectId).Count - 1)
+                                {
+                                    <a href="#">@Html.Raw(i.Name),</a>
+                                }
+                                else
+                                {
+                                    <a href="#">@Html.Raw(i.Name)</a>
+                                }
+                                a++;
+                            }
+                        }
+                    </footer>
+
+                </blockquote>
+            </div>
+
+            <div class="card-body">
+                @if (String.IsNullOrEmpty(Model.ImageLink))
+                {
+                    <img class="float-md-left rounded" src="~/Lib/images/PlaceHolder150x150.png" style="margin-right:2em;" />
+                }
+                else
+                {
+                    <img class="float-md-left rounded" src="@Model.ImageLink" style="margin-right:2em;" />
+                }
+
+                <div class="media-body">
+                    <p style="text-indent: 2%;">
+                        @Html.DisplayFor(m => m.ShordDescription)
+                    </p>
+
+
+
+                </div>
+            </div>
+
+            <div class="card-footer" style="padding-bottom: 3px !important; padding-top: 3px !important;">
+                <button type="button" id="@Html.Raw("MoreBtn" + Model.ProjectId)" class="btn btn-sm btn-primary float-right" onclick="location.href='@Url.Action("ProjectView", "Projects", new { projectId = Model.ProjectId})';return false;">Więcej</button>
+
+            </div>
+        </div>
+    </div>
+</div>

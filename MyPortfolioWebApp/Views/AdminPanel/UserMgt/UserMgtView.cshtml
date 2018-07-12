@@ -1,0 +1,14 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.UserListViewModel
+@{
+    Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
+}
+
+    @section Header{ Lista użytkowników }
+
+    <div id="UserList">
+        @Html.Partial("UserMgt/_UserListPartial")
+    </div>
+
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/UpdateInfo.js"></script>
+

@@ -1,0 +1,93 @@
+﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Lib/Styles/SlideShow.css" rel="stylesheet" />
+
+<div class="row ">
+    <div class="col">
+        <div class="card mb-3" style="margin-bottom: 2em;">
+
+            <div class="card-header text-center" style="padding-bottom: 0 !important; padding-top: 3px !important;">
+                <blockquote class="blockquote">
+                    <h2 class="mb-0">@Html.DisplayFor(m => m.Title)</h2>
+                    <footer class="blockquote-footer">
+                        <b>Data utworzenia:</b> @Html.Name(Model.DateTimeCreated.ToShortDateString())
+
+                        @{
+                            //TODO: Poprawić wyświetlanie autora
+                        }
+                        @*<b style="margin-left: 1em;">Autor:</b> <a href="#">@Html.Name(MyPortfolioWebApp.Models.DatabaseModels.User.GetUserNameFromId(Model.AuthorId)) </a>*@
+                        <b style="margin-left: 1em;">Technologie:</b>
+                        @if (Model.GetTechnologies(Model.ProjectId) != null)
+                        {
+                            int a = 0;
+                            foreach (var i in Model.GetTechnologies(Model.ProjectId))
+                            {
+
+                                if (Model.GetTechnologies(Model.ProjectId).Count > 1 && a < Model.GetTechnologies(Model.ProjectId).Count - 1)
+                                {
+                                    <a href="#">@Html.Raw(i.Name),</a>
+                                }
+                                else
+                                {
+                                    <a href="#">@Html.Raw(i.Name)</a>
+                                }
+                                a++;
+                            }
+                        }
+                    </footer>
+                </blockquote>
+            </div>
+
+            <div class="card-body ">
+                @{
+                    if (MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId).Any())
+                    {
+                        int imagesAmount = MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId).Count();
+                        int counter = 1;
+                        <div class="slideshow-container">
+                            @foreach (var var in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+                            {
+                                <div class="mySlides fade">
+                                    <div class="numbertext">@Html.Raw(counter) / @Html.Raw(imagesAmount)</div>
+                                    <img src="@Html.Raw(MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetPath(Model.ProjectId) + var.FileName)" style="width: 100%">
+                                    <div class="text">Caption Text</div>
+                                </div>
+                                counter++;
+                            }
+
+                            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                        </div>
+                        <br>
+
+                        <div style="text-align: center">
+                           @{
+                               counter = 1;
+                               foreach (var var in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+                               {
+                                   <span class="dot" onclick="currentSlide(counter)"></span>
+                                   counter++;
+                               }
+                           }
+                        </div>
+
+                   
+                    }
+                }
+
+
+                <div style="text-align: center;">
+                    <h3>Pełen opis</h3>
+                    @Html.Name(Model.ShordDescription)
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+<script src="~/Scripts/SlideShow.js"></script>

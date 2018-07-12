@@ -1,0 +1,47 @@
+﻿@model  MyPortfolioWebApp.Models.ViewModels.AdditionalInfoViewModel
+
+@{ using (Html.BeginForm("AddAdditionalInformation", "AdminPanel"))
+    {
+        <div class="modal fade" id="AddNewAdditionalInfo" tabindex="-1" role="dialog" aria-labelledby="AddNewAdditionalInfoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="AddNewAdditionalInfoLabel">Dodaj dodatkową informacje</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <div class="modal-body">
+                        @Html.HiddenFor(m => Model.AdditionalInfoId)
+                        <p>
+                            @Html.ValidationMessageFor(model => model.Title, "*", new { @class = "text-danger" })
+                            @Html.LabelFor(m => m.Title, new { htmlAttributes = new { @class = "control-label" }, })
+                            @Html.EditorFor(m => m.Title, new { htmlAttributes = new { @class = "form-control" }, })
+                        </p>
+                        <p>
+                            @Html.ValidationMessageFor(model => model.TypeList, "*", new { @class = "text-danger" })
+                            @Html.LabelFor(m => m.TypeList, new { htmlAttributes = new { @class = "control-label" }, })
+                            @Html.DropDownListFor(model => model.Type, new SelectList(Model.TypeList, "Id", "Name"))
+
+                        </p>
+                        <p>
+                            @Html.ValidationMessageFor(model => model.ShowInCv, "*", new { @class = "text-danger" })
+                            @Html.LabelFor(m => m.ShowInCv, new { htmlAttributes = new { @class = "control-label" }, })
+                            @Html.CheckBoxFor(model => model.ShowInCv)
+                        </p>
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Dodaj</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+}
