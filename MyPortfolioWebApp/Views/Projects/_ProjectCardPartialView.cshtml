@@ -1,4 +1,5 @@
-﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
+﻿@using MyPortfolioWebApp.Controllers
+@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
 <div class="row">
     <div class="col">
         <div class="card mb-3" style="margin-bottom:2em;">
@@ -10,7 +11,7 @@
                         @{
                             //TODO: Poprawić wyświetlanie autora
                         }
-                        @*<b style="margin-left: 1em;">Autor:</b> <a href="#">@Html.Name(MyPortfolioWebApp.Models.DatabaseModels.User.GetUserNameFromId(Model.AuthorId)) </a>*@
+                        <b style="margin-left: 1em;">Autor:</b> <a href="#">@Html.Name(AccountController.GetAuthorName(Model.AuthorId)) </a>
                         <b style="margin-left: 1em;">Technologie:</b>
                         @if (Model.GetTechnologies(Model.ProjectId) != null)
                         {

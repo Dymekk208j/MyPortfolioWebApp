@@ -62,20 +62,30 @@ namespace MyPortfolioWebApp.Models.ViewModels
                                            where u.ProjectId == projectId
                                            select u);
             ApplicationDbContext db2 = new ApplicationDbContext();
-            TechnologyViewModel tvm;
             foreach (var t in projectTechnologiesList)
             {
                 var technology = (from u in db2.Technologies
                                   where u.TechnologyId == t.TechnologyId
                                   select u).FirstOrDefault();
-                tvm = Mapper.Map<Technology, TechnologyViewModel>(technology);
+                var tvm = Mapper.Map<Technology, TechnologyViewModel>(technology);
                 if (tvm != null) technologies.Add(tvm);
             }
             return technologies;
         }
 
-        public List<TechnologyViewModel> GetRemaningTechnologies(ProjectViewModel projectViewModel)
+        public static List<TechnologyViewModel> GetRemaningTechnologies(ProjectViewModel projectViewModel)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            List<int> technologiesInProject = new List<int>();
+
+            var tech = from u in db.ProjectTechnologies
+                where u.ProjectId == projectViewModel.ProjectId
+                select u;
+            foreach (var i in tech)
+            {
+                if (i != null) technologiesInProject.Add(i.TechnologyId);
+            }
+
             List<TechnologyViewModel> techList = new List<TechnologyViewModel>();
             techList.Add(new TechnologyViewModel()
             {
@@ -83,23 +93,19 @@ namespace MyPortfolioWebApp.Models.ViewModels
                 TechnologyId = null
 
             });
-            ApplicationDbContext db = new ApplicationDbContext();
 
             var technologiesList = (from u in db.Technologies
-                                    select u);
+                select u);
 
-            TechnologyViewModel tvm;
             foreach (var t in technologiesList)
             {
-
-                tvm = Mapper.Map<Technology, TechnologyViewModel>(t);
+                var tvm = Mapper.Map<Technology, TechnologyViewModel>(t);
 
                 if (projectViewModel.Technologies.Count > 0)
                 {
-                    if (!projectViewModel.Technologies.Contains(tvm)) techList.Add(tvm);
+                    if (!technologiesInProject.Contains(tvm.TechnologyId.GetValueOrDefault())) techList.Add(tvm);
                 }
                 else techList.Add(tvm);
-
             }
             return techList;
         }

@@ -31,11 +31,16 @@
                         <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "AboutMe")';return false;">O mnie</button>
                         <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href = '@Url.Action("Index", "Cv")';return false;">CV</button>
                         <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "Contact")';return false;">Kontakt</button>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Home", "AdminPanel")';return false;">Panel administratora</button>
+                        }
                         @if (Request.IsAuthenticated)
                         {
-                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                             {
                                 @Html.AntiForgeryToken()
+
                                 <button type="submit" class="btn btn-danger">Wyloguj</button>
                             }
                         }

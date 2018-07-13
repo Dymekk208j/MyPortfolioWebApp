@@ -5,13 +5,14 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using MyPortfolioWebApp.Models;
 using MyPortfolioWebApp.Models.DatabaseModels;
 using MyPortfolioWebApp.Models.ViewModels;
 
 namespace MyPortfolioWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminPanelController : Controller
     {
         private ApplicationDbContext _db;
@@ -72,13 +73,12 @@ namespace MyPortfolioWebApp.Controllers
             Project project = Mapper.Map<ProjectViewModel, Project>(projectViewModel);
             project.DateTimeCreated = DateTime.Now;
             project.ShowInCv = false;
-            //TODO: Dodać kod podpinajacy id autora
-           // project.AuthorId = 1;
+            project.AuthorId = User.Identity.GetUserId();
 
 
             _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
-
+            //TODO: cos jest namieszane z dodaniem technologi do istniejacego projektu
             if (projectViewModel.SelectedTechnology != null)
             {
                 AddTechnologyToTempProject(projectViewModel.ProjectId, projectViewModel.SelectedTechnology.GetValueOrDefault());
@@ -284,6 +284,77 @@ namespace MyPortfolioWebApp.Controllers
             db.SaveChanges();
         }
 
+        public ActionResult RemoveTechnologyFromTempProject(int tempTechnologyId, int tempProjectId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var TPT = (from u in db.TempProjectTechnologies
+                where u.TechnologyId == tempTechnologyId && u.ProjectId == tempProjectId
+                       select u).FirstOrDefault();
+            if(TPT == null) return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
+
+            db.TempProjectTechnologies.Remove(TPT);
+            db.SaveChanges();
+
+            return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
+        }
+        public ActionResult RemoveImageFromTempProject(int imageId, int tempProjectId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var image = (from u in db.Images
+                where u.ImageId == imageId
+                select u).FirstOrDefault();
+
+            if (image == null) return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
+
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/TempProject" + image.ProjectId + "Data"), image.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+                db.Images.Remove(image);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
+        }
+
+        public ActionResult RemoveTechnologyFromProject(int technologyId, int projectId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var TPT = (from u in db.ProjectTechnologies
+                where u.TechnologyId == technologyId && u.ProjectId == projectId
+                       select u).FirstOrDefault();
+            if (TPT == null) return RedirectToAction("EditProjectView", new { projectId });
+
+            db.ProjectTechnologies.Remove(TPT);
+            db.SaveChanges();
+
+            return RedirectToAction("EditProjectView", new { projectId });
+        }
+        public ActionResult RemoveImageFromProject(int imageId, int projectId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            var image = (from u in db.Images
+                where u.ImageId == imageId
+                select u).FirstOrDefault();
+
+            if (image == null) return RedirectToAction("EditProjectView", new { projectId });
+
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Project" + image.ProjectId + "Data"), image.FileName);
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+                db.Images.Remove(image);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("EditProjectView", new { projectId });
+        }
         public ActionResult UpdateTempProject(TempProjectViewModel tempProjectViewModel)
         {
             _db = new ApplicationDbContext();
@@ -292,7 +363,8 @@ namespace MyPortfolioWebApp.Controllers
             tempProject.DateTimeCreated = DateTime.Now;
             tempProject.ShowInCv = false;
             //TODO: Dodac kod podpinajacy autora
-           // tempProject.AuthorId = 1;
+            // tempProject.AuthorId = 1;
+            tempProject.AuthorId = User.Identity.GetUserId();
 
 
             _db.Entry(tempProject).State = System.Data.Entity.EntityState.Modified;
@@ -350,7 +422,6 @@ namespace MyPortfolioWebApp.Controllers
             }
             _db.SaveChanges();
         }
-
 
 
         public ActionResult EducationMgtView()

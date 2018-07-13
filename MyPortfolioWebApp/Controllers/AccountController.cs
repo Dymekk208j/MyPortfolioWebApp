@@ -25,36 +25,50 @@ namespace MyPortfolioWebApp.Controllers
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
-        public async Task<ActionResult> DeleteUser(string userId)
+        public ActionResult DeleteUser(string userId)
         {
             ApplicationDbContext db = new ApplicationDbContext();
             var usr = (from u in db.Users
-                        where u.Id == userId
-                        select u).FirstOrDefault();
+                       where u.Id == userId
+                       select u).FirstOrDefault();
             if (usr == null) return RedirectToAction("UserMgt", "AdminPanel", new { page = 0 });
 
-            await UserManager.DeleteAsync(usr);
+            db.Entry(usr).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
             return RedirectToAction("UserMgt", "AdminPanel", new { page = 0 });
 
         }
 
-        public async Task<ActionResult> UpdateUser(UpdateViewModel updateViewModel)
+        public  ActionResult UpdateUser(UpdateViewModel updateViewModel)
         {
             if (!ModelState.IsValid)
             {
                 return RedirectToAction("UserMgt", "AdminPanel", new { page = 0 });
             }
 
+            ApplicationDbContext db = new ApplicationDbContext();
             ApplicationUser user = Mapper.Map<UpdateViewModel, ApplicationUser>(updateViewModel);
 
-            await UserManager.UpdateAsync(user);
+            db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
 
 
             return RedirectToAction("UserMgt", "AdminPanel", new { page = 0 });
 
         }
 
+        [AllowAnonymous]
+        public static string GetAuthorName(string authorId)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
 
+            var author = (from x in db.Users
+                          where x.Id == authorId
+                          select x).FirstOrDefault();
+
+            if (author != null) return author.UserName;
+            return "";
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -112,9 +126,9 @@ namespace MyPortfolioWebApp.Controllers
                 {
                     UserName = model.UserName,
                     FirstName = model.FirstName,
-                    LastName =  model.LastName,
+                    LastName = model.LastName,
                     Blocked = false,
-                    Email =  model.Email
+                    Email = model.Email
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

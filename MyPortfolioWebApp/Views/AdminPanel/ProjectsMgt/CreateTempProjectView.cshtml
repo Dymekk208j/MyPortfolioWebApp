@@ -47,34 +47,56 @@
         </p>
         <p id="TechnologiesParagraf">
             <b>Technologie: </b>
+            <button id="AddTechnology" style="display: none; margin-left: 0.2em" type="button" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddTechnologyToTempProject"></button>
+
             @if (Model.Technologies != null)
             {
                 int z = 0;
                 foreach (var j in Model.Technologies)
                 {
+                    <div id="@Html.Raw("techSec" + j.Name.GetHashCode())" class="d-inline">
+                        <button id="@Html.Raw(j.Name.GetHashCode() + "delBtn")" style="display: none;" type="button" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveTechnologyFromTempProject", "AdminPanel", new{tempProjectId = Model.TempProjectId, tempTechnologyId = j.TechnologyId})';return false;"></button>
 
-                    if (Model.Technologies.Count > 1 && z < Model.Technologies.Count - 1)
-                    {
-                        <i>@Html.Raw(j.Name),</i>
-                    }
-                    else
-                    {
-                        <i>@Html.Raw(j.Name)</i>
-                    }
-                    z++;
+                        @if (Model.Technologies.Count > 1 && z < Model.Technologies.Count - 1)
+                        {
+                            <i>@Html.Raw(j.Name),</i>
+                        }
+                        else
+                        {
+                            <i>@Html.Raw(j.Name)</i>
+                        }
+                        @{z++;}
+                    </div>
+
                 }
             }
 
-            <button id="AddTechnology" style="display: none; margin-left: 0.2em" type="button" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddTechnologyToTempProject"></button>
         </p>
-        <p>
-            <button id="AddImgBtn" style="margin-left: 0.2em" type="button" class="btn btn-primary btn-sm far fa-plus-square text-right" data-toggle="modal" data-target="#AddImage"> Dodaj zdjecie do projektu</button>
-            <br />
+        <p id="ImageParagraf">
             <b>Zdjęcia: </b>
-            @foreach (var i in MyPortfolioWebApp.Models.ViewModels.TempProjectViewModel.GetImagesForProject(Model.TempProjectId))
-            {
-                @Html.Raw(i.FileName + ", ")
+            <button id="AddImageBtn" style="display: none; margin-left: 0.2em" type="button" class="btn btn-outline-success btn-sm far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddImage"></button>
+
+            @{
+                int k = 0;
+                var imageList = MyPortfolioWebApp.Models.ViewModels.TempProjectViewModel.GetImagesForProject(Model.TempProjectId);
+                foreach (var i in imageList)
+                {
+                    <div id="@Html.Raw("imageSection" + i.ImageId)" class="d-inline">
+                        <button id="@Html.Raw("delImageBtn" + i.ImageId)" style="display: none;" type="button" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveImageFromTempProject", "AdminPanel", new{tempProjectId = Model.TempProjectId, imageId = i.ImageId})';return false;"></button>
+
+                        @if (imageList.Count > 1 && k < imageList.Count - 1)
+                        {
+                            <i>@Html.Raw(i.FileName + ", ")</i>
+                        }
+                        else
+                        {
+                            <i>@Html.Raw(i.FileName)</i>
+                        }
+                        @{ k++; }
+                    </div>
+                }
             }
+
         </p>
         <p>
             @Html.ValidationMessageFor(model => model.ImageLink, "*", new { @class = "text-danger" })
@@ -84,7 +106,6 @@
         <p>
             <label class="form-check-label">
                 Komercyjny
-                @*<input class="form-check-inline" type="checkbox" name="Commercial" id="Commercial" } /*@>
                 @Html.CheckBoxFor(m => m.Commercial)
             </label>
         </p>
@@ -92,18 +113,18 @@
         <p>
             @Html.ValidationMessageFor(model => model.ShordDescription, "*", new { @class = "text-danger" })
             @Html.LabelFor(m => m.ShordDescription, new { htmlAttributes = new { @class = "control-label" }, })
-            @Html.TextAreaFor(model => model.ShordDescription, new { @class = "form-control", style = "width:100%; height: 100px;" })
+            @Html.TextAreaFor(model => model.ShordDescription, new { @class = "form-control", style = "width:100%; height: 50px;" })
         </p>
         <p>
             @Html.ValidationMessageFor(model => model.FullDescription, "*", new { @class = "text-danger" })
             @Html.LabelFor(m => m.FullDescription, new { htmlAttributes = new { @class = "control-label" }, })
-            @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control", style = "width:100%; height: 250px;" })
+            @Html.TextAreaFor(model => model.FullDescription, new { @class = "form-control", style = "width:100%; height: 150px;" })
         </p>
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
 
 
         <button type="button" class="btn btn-danger far fa-minus-square float-sm-right" style="margin-bottom: 1em; margin-left: 1em;" onclick="location.href='@Url.Action("RemoveTempProject", "AdminPanel", new { projectId = Model.TempProjectId })';return false;"> Usuń</button>
-        <input type="submit" class="btn btn-secondary float-sm-right" value="Zapisz tymczasowo"  style="margin-bottom: 1em; margin-left: 1em;">
+        <input type="submit" class="btn btn-secondary float-sm-right" value="Zapisz tymczasowo" style="margin-bottom: 1em; margin-left: 1em;">
         <button type="button" class="btn btn-success far fa-plus-square float-sm-right" style="margin-bottom: 1em; margin-left: 1em;" onclick="location.href='@Url.Action("CreateProjectFromTempProject", "AdminPanel", new { projectId = Model.TempProjectId })';return false;"> Dodaj do portfolio</button>
 
 
@@ -150,3 +171,53 @@
         $('#TechnologiesParagraf').css("background", "none");
     });
 </script>
+
+<script language="Javascript">
+    $('#ImageParagraf').mouseenter(function () {
+        $('#AddImageBtn').show();
+        $('#ImageParagraf').css("background", "#f5f5f0");
+    });
+    $('#ImageParagraf').mouseleave(function () {
+        $('#AddImageBtn').hide();
+        $('#ImageParagraf').css("background", "none");
+    });
+</script>
+
+
+
+@if (Model.Technologies != null)
+{
+    foreach (var j in Model.Technologies)
+    {
+        <script language="Javascript">
+            $('@Html.Raw("#techSec" + j.Name.GetHashCode())').mouseenter(function () {
+                $('@Html.Raw("#" + j.Name.GetHashCode() + "delBtn")').show();
+                $('@Html.Raw("#techSec" + j.Name.GetHashCode())').css("background", "#deb887");
+            });
+            $('@Html.Raw("#techSec" + j.Name.GetHashCode())').mouseleave(function () {
+                $('@Html.Raw("#" + j.Name.GetHashCode() + "delBtn")').hide();
+                $('@Html.Raw("#techSec" + j.Name.GetHashCode())').css("background", "none");
+            });
+        </script>
+    }
+}
+
+@{
+    var imgList = MyPortfolioWebApp.Models.ViewModels.TempProjectViewModel.GetImagesForProject(Model.TempProjectId);
+    if (imgList != null)
+    {
+        foreach (var j in imgList)
+        {
+        <script language="Javascript">
+                $('@Html.Raw("#imageSection" + j.ImageId)').mouseenter(function () {
+                    $('@Html.Raw("#delImageBtn" + j.ImageId)').show();
+                    $('@Html.Raw("#imageSection" + j.ImageId)').css("background", "#deb887");
+                });
+                $('@Html.Raw("#imageSection" + j.ImageId)').mouseleave(function () {
+                    $('@Html.Raw("#delImageBtn" + j.ImageId)').hide();
+                    $('@Html.Raw("#imageSection" + j.ImageId)').css("background", "none");
+                });
+        </script>
+        }
+    }
+}

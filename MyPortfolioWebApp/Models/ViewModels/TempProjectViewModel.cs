@@ -10,7 +10,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
     public class TempProjectViewModel
     {
         public int TempProjectId { get; set; }
-        
+
         public int? SelectedTechnology { get; set; }
         [Display(Name = "Tytuł")]
         public String Title { get; set; }
@@ -32,7 +32,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public DateTime DateTimeCreated { get; set; }
 
         public string AuthorId { get; set; }
-      
+
         public static List<Image> GetImagesForProject(int projectId)
         {
             List<Image> images = new List<Image>();
@@ -62,13 +62,12 @@ namespace MyPortfolioWebApp.Models.ViewModels
                                            where u.ProjectId == projectId
                                            select u);
             ApplicationDbContext db2 = new ApplicationDbContext();
-            TechnologyViewModel tvm;
             foreach (var t in projectTechnologiesList)
             {
                 var technology = (from u in db2.Technologies
                                   where u.TechnologyId == t.TechnologyId
                                   select u).FirstOrDefault();
-                tvm = Mapper.Map<Technology, TechnologyViewModel>(technology);
+                var tvm = Mapper.Map<Technology, TechnologyViewModel>(technology);
                 if (tvm != null) technologies.Add(tvm);
             }
             return technologies;
@@ -76,6 +75,17 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         public static List<TechnologyViewModel> GetRemaningTechnologies(TempProjectViewModel tempProjectViewModel)
         {
+            ApplicationDbContext db = new ApplicationDbContext();
+            List<int> technologiesInProject = new List<int>();
+
+            var tech = from u in db.TempProjectTechnologies
+                                         where u.ProjectId == tempProjectViewModel.TempProjectId
+                                         select u;
+            foreach (var i in tech)
+            {
+                if(i != null) technologiesInProject.Add(i.TechnologyId);
+            }
+            
             List<TechnologyViewModel> techList = new List<TechnologyViewModel>();
             techList.Add(new TechnologyViewModel()
             {
@@ -83,23 +93,19 @@ namespace MyPortfolioWebApp.Models.ViewModels
                 TechnologyId = null
 
             });
-            ApplicationDbContext db = new ApplicationDbContext();
 
             var technologiesList = (from u in db.Technologies
                                     select u);
 
-            TechnologyViewModel tvm;
             foreach (var t in technologiesList)
             {
-
-                tvm = Mapper.Map<Technology, TechnologyViewModel>(t);
+                var tvm = Mapper.Map<Technology, TechnologyViewModel>(t);
 
                 if (tempProjectViewModel.Technologies.Count > 0)
                 {
-                    if (!tempProjectViewModel.Technologies.Contains(tvm)) techList.Add(tvm);
+                    if (!technologiesInProject.Contains(tvm.TechnologyId.GetValueOrDefault())) techList.Add(tvm);
                 }
                 else techList.Add(tvm);
-
             }
             return techList;
         }

@@ -10,8 +10,8 @@
             @Html.AntiForgeryToken()
 
             <div class="input-group">
-                <input type="text" class="form-control" style="margin-right: 0.5em; max-width: 200px;" placeholder="UserName" name="UserName" id="login" [value]="UserName" />
-                <input type="password" class="form-control" style="max-width: 200px; margin-right: 5px;" placeholder="Password" name="Password" id="Password" />
+                <input type="text" class="form-control" style="margin-right: 0.5em; max-width: 200px;" placeholder="Login" name="UserName" id="login" [value]="UserName" />
+                <input type="password" class="form-control" style="max-width: 200px; margin-right: 5px;" placeholder="Hasło" name="Password" id="Password" />
                 <div class="form-group">
                     <div style="color: white; margin-right: 1em;">
                             @Html.CheckBoxFor(m => m.RememberMe)
