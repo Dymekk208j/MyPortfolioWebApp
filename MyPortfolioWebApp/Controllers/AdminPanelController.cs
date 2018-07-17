@@ -1,12 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Windows.Forms;
 using Microsoft.AspNet.Identity;
 using MyPortfolioWebApp.Models;
 using MyPortfolioWebApp.Models.DatabaseModels;
@@ -452,12 +450,12 @@ namespace MyPortfolioWebApp.Controllers
         {
             ApplicationDbContext db = new ApplicationDbContext();
 
-            var TPT = (from u in db.ProjectTechnologies
+            var tpt = (from u in db.ProjectTechnologies
                        where u.TechnologyId == technologyId && u.ProjectId == projectId
                        select u).FirstOrDefault();
-            if (TPT == null) return RedirectToAction("EditProjectView", new { projectId });
+            if (tpt == null) return RedirectToAction("EditProjectView", new { projectId });
 
-            db.ProjectTechnologies.Remove(TPT);
+            db.ProjectTechnologies.Remove(tpt);
             db.SaveChanges();
 
             return RedirectToAction("EditProjectView", new { projectId });

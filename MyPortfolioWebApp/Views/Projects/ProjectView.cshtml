@@ -62,7 +62,7 @@
                         <div style="text-align: center">
                            @{
                                counter = 1;
-                               foreach (var var in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+                               foreach (var unused in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
                                {
                                    <span class="dot" onclick="currentSlide(counter)"></span>
                                    counter++;
