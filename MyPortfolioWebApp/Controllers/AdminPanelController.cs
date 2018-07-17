@@ -1,23 +1,112 @@
 ﻿using System;
 using AutoMapper;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Windows.Forms;
 using Microsoft.AspNet.Identity;
 using MyPortfolioWebApp.Models;
 using MyPortfolioWebApp.Models.DatabaseModels;
 using MyPortfolioWebApp.Models.ViewModels;
+using Image = MyPortfolioWebApp.Models.DatabaseModels.Image;
 
 namespace MyPortfolioWebApp.Controllers
+
 {
     [Authorize(Roles = "Admin")]
     public class AdminPanelController : Controller
     {
         private ApplicationDbContext _db;
         private CvViewModel _cvViewModel;
+        public ActionResult UploadProjectIcon(HttpPostedFileBase file, int projectId)
+        {
+            string error = "";
 
+            _db = new ApplicationDbContext();
+            var project = (from u in _db.Projects where u.ProjectId == projectId select u).First();
+            string fileName = "IconProj" + projectId + ".png";
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), fileName);
+            var img = System.Drawing.Image.FromStream(file.InputStream, true, true);
+            if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
+            if (img.Width < 50 || img.Height < 50) error = "Minimalny rozmiar ikony to 50x50px.";
+
+
+            if (file.ContentLength > 0 && string.IsNullOrEmpty(error))
+            {
+                file.SaveAs(path);
+                project.ImageLink = fileName;
+                _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction("EditProjectView", new { projectId, error });
+        }
+        public ActionResult RemoveIconFromProject(int projectId)
+        {
+            string error = "";
+
+            _db = new ApplicationDbContext();
+            var project = (from u in _db.Projects where u.ProjectId == projectId select u).First();
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), project.ImageLink);
+
+            if (!System.IO.File.Exists(path))
+            {
+                error = "Nie znaleziono pliku";
+                return RedirectToAction("EditProjectView", new { TempProjectId = projectId, error });
+            }
+            System.IO.File.Delete(path);
+            project.ImageLink = "";
+            _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
+            _db.SaveChanges();
+
+            return RedirectToAction("EditProjectView", new { projectId, error });
+        }
+        public ActionResult UploadTempProjectIcon(HttpPostedFileBase file, int tempProjectId)
+        {
+            string error = "";
+
+            _db = new ApplicationDbContext();
+            var project = (from u in _db.TempProjects where u.TempProjectId == tempProjectId select u).First();
+            string fileName = "IconTempProj" + tempProjectId + ".png";
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), fileName);
+            var img = System.Drawing.Image.FromStream(file.InputStream, true, true);
+            if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
+            if (img.Width < 50 || img.Height < 50) error = "Minimalny rozmiar ikony to 50x50px.";
+
+
+            if (file.ContentLength > 0 && string.IsNullOrEmpty(error))
+            {
+                file.SaveAs(path);
+                project.ImageLink = fileName;
+                _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
+                _db.SaveChanges();
+            }
+
+            return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId, error });
+        }
+        public ActionResult RemoveIconFromTempProject(int tempProjectId)
+        {
+            string error = "";
+
+            _db = new ApplicationDbContext();
+            var project = (from u in _db.TempProjects where u.TempProjectId == tempProjectId select u).First();
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), project.ImageLink);
+
+            if (!System.IO.File.Exists(path))
+            {
+                error = "Nie znaleziono pliku";
+                return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId, error });
+            }
+            System.IO.File.Delete(path);
+            project.ImageLink = "";
+            _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
+            _db.SaveChanges();
+
+            return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId, error });
+        }
         public ActionResult CreateProjectFromTempProject(int projectId)
         {
             _db = new ApplicationDbContext();
@@ -26,11 +115,22 @@ namespace MyPortfolioWebApp.Controllers
                                where x.TempProjectId == projectId
                                select x).FirstOrDefault();
             Project project = Mapper.Map<TempProject, Project>(tempProject);
+           
             if (tempProject != null) _db.Projects.Add(project);
             _db.SaveChanges();
 
+            project.ImageLink = "IconProj" + project.ProjectId + ".png";
+            System.IO.File.Move(Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconTempProj" + projectId + ".png"),
+                Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconProj" + project.ProjectId + ".png"));
+
+            _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
+            _db.SaveChanges();
+
+
             bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
             if (!exists) Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
+
+           
 
             ApplicationDbContext db2 = new ApplicationDbContext();
             var tempProjectTechnologies = from x in db2.TempProjectTechnologies
@@ -67,6 +167,7 @@ namespace MyPortfolioWebApp.Controllers
 
             return RedirectToAction("ProjectsListView");
         }
+
         public ActionResult UpdateProject(ProjectViewModel projectViewModel)
         {
             _db = new ApplicationDbContext();
@@ -78,19 +179,20 @@ namespace MyPortfolioWebApp.Controllers
 
             _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
-            //TODO: cos jest namieszane z dodaniem technologi do istniejacego projektu
             if (projectViewModel.SelectedTechnology != null)
             {
-                AddTechnologyToTempProject(projectViewModel.ProjectId, projectViewModel.SelectedTechnology.GetValueOrDefault());
+                AddTechnologyToProject(projectViewModel.ProjectId, projectViewModel.SelectedTechnology.GetValueOrDefault());
             }
 
             return RedirectToAction("EditProjectView", new { projectId = projectViewModel.ProjectId });
         }
+
         public ActionResult ProjectsListView()
         {
             ProjectListModelView projectListModelView = new ProjectListModelView();
             return View("ProjectsMgt/ProjectsListView", projectListModelView);
         }
+
         public ActionResult RemoveProject(int projectId)
         {
             _db = new ApplicationDbContext();
@@ -98,6 +200,10 @@ namespace MyPortfolioWebApp.Controllers
             var project = (from u in _db.Projects
                            where u.ProjectId == projectId
                            select u).FirstOrDefault();
+
+            string fileName = "IconProj" + projectId + ".png";
+            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), fileName);
+            System.IO.File.Delete(path);
 
             _db.Entry(project).State = System.Data.Entity.EntityState.Deleted;
 
@@ -116,6 +222,7 @@ namespace MyPortfolioWebApp.Controllers
 
             foreach (var img in images)
             {
+                System.IO.File.Delete(Path.Combine(Server.MapPath("~/UploadedFiles/Project" + projectId + "Data/") + img.FileName));
                 _db.Entry(img).State = System.Data.Entity.EntityState.Deleted;
             }
 
@@ -124,6 +231,7 @@ namespace MyPortfolioWebApp.Controllers
 
             return RedirectToAction("ProjectsListView");
         }
+
         private TempProject CreateEmptyTempProject()
         {
             _db = new ApplicationDbContext();
@@ -134,6 +242,7 @@ namespace MyPortfolioWebApp.Controllers
 
             return tempProject;
         }
+
         public ActionResult CreateTempProjectView()
         {
             _db = new ApplicationDbContext();
@@ -161,7 +270,8 @@ namespace MyPortfolioWebApp.Controllers
 
             return View("ProjectsMgt/CreateTempProjectView", projectViewModel);
         }
-        public ActionResult EditProjectView(int projectId)
+
+        public ActionResult EditProjectView(int projectId, string error)
         {
             ApplicationDbContext db3 = new ApplicationDbContext();
             _db = new ApplicationDbContext();
@@ -190,10 +300,13 @@ namespace MyPortfolioWebApp.Controllers
                 projectViewModel.SelectedTechnology = null;
                 projectViewModel.Technologies.Add(tech);
             }
+            if (!string.IsNullOrEmpty(error)) ModelState.AddModelError("", error);
+
 
             return View("ProjectsMgt/EditProjectView", projectViewModel);
         }
-        public ActionResult CreateTempProjectView2(int tempProjectId)
+
+        public ActionResult CreateTempProjectView2(int tempProjectId, string error)
         {
             ApplicationDbContext db3 = new ApplicationDbContext();
             _db = new ApplicationDbContext();
@@ -223,10 +336,11 @@ namespace MyPortfolioWebApp.Controllers
                 projectViewModel.Technologies.Add(tech);
             }
 
-
+            if (!string.IsNullOrEmpty(error)) ModelState.AddModelError("", error);
 
             return View("ProjectsMgt/CreateTempProjectView", projectViewModel);
         }
+
         public ActionResult RemoveTempProject(int projectId)
         {
             _RemoveTempProject(projectId);
@@ -284,27 +398,41 @@ namespace MyPortfolioWebApp.Controllers
             db.SaveChanges();
         }
 
+        private void AddTechnologyToProject(int projectId, int selectedTechnology)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+
+            ProjectTechnology projectTechnology = new ProjectTechnology()
+            {
+                ProjectId = projectId,
+                TechnologyId = selectedTechnology
+            };
+            db.ProjectTechnologies.Add(projectTechnology);
+            db.SaveChanges();
+        }
+
         public ActionResult RemoveTechnologyFromTempProject(int tempTechnologyId, int tempProjectId)
         {
             ApplicationDbContext db = new ApplicationDbContext();
 
-            var TPT = (from u in db.TempProjectTechnologies
-                where u.TechnologyId == tempTechnologyId && u.ProjectId == tempProjectId
+            var tpt = (from u in db.TempProjectTechnologies
+                       where u.TechnologyId == tempTechnologyId && u.ProjectId == tempProjectId
                        select u).FirstOrDefault();
-            if(TPT == null) return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
+            if (tpt == null) return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
 
-            db.TempProjectTechnologies.Remove(TPT);
+            db.TempProjectTechnologies.Remove(tpt);
             db.SaveChanges();
 
             return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
         }
+
         public ActionResult RemoveImageFromTempProject(int imageId, int tempProjectId)
         {
             ApplicationDbContext db = new ApplicationDbContext();
 
             var image = (from u in db.Images
-                where u.ImageId == imageId
-                select u).FirstOrDefault();
+                         where u.ImageId == imageId
+                         select u).FirstOrDefault();
 
             if (image == null) return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
 
@@ -325,7 +453,7 @@ namespace MyPortfolioWebApp.Controllers
             ApplicationDbContext db = new ApplicationDbContext();
 
             var TPT = (from u in db.ProjectTechnologies
-                where u.TechnologyId == technologyId && u.ProjectId == projectId
+                       where u.TechnologyId == technologyId && u.ProjectId == projectId
                        select u).FirstOrDefault();
             if (TPT == null) return RedirectToAction("EditProjectView", new { projectId });
 
@@ -334,13 +462,14 @@ namespace MyPortfolioWebApp.Controllers
 
             return RedirectToAction("EditProjectView", new { projectId });
         }
+
         public ActionResult RemoveImageFromProject(int imageId, int projectId)
         {
             ApplicationDbContext db = new ApplicationDbContext();
 
             var image = (from u in db.Images
-                where u.ImageId == imageId
-                select u).FirstOrDefault();
+                         where u.ImageId == imageId
+                         select u).FirstOrDefault();
 
             if (image == null) return RedirectToAction("EditProjectView", new { projectId });
 
@@ -355,6 +484,7 @@ namespace MyPortfolioWebApp.Controllers
 
             return RedirectToAction("EditProjectView", new { projectId });
         }
+
         public ActionResult UpdateTempProject(TempProjectViewModel tempProjectViewModel)
         {
             _db = new ApplicationDbContext();
@@ -362,8 +492,6 @@ namespace MyPortfolioWebApp.Controllers
 
             tempProject.DateTimeCreated = DateTime.Now;
             tempProject.ShowInCv = false;
-            //TODO: Dodac kod podpinajacy autora
-            // tempProject.AuthorId = 1;
             tempProject.AuthorId = User.Identity.GetUserId();
 
 
@@ -393,6 +521,7 @@ namespace MyPortfolioWebApp.Controllers
             UploadFile(file, image, path);
             return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId });
         }
+
         [HttpPost]
         public ActionResult UploadProjImage(HttpPostedFileBase file, int projectId)
         {
@@ -408,6 +537,7 @@ namespace MyPortfolioWebApp.Controllers
 
             return RedirectToAction("EditProjectView", new { projectId });
         }
+
         private void UploadFile(HttpPostedFileBase file, Image image, string path)
         {
             _db = new ApplicationDbContext();
@@ -422,7 +552,6 @@ namespace MyPortfolioWebApp.Controllers
             }
             _db.SaveChanges();
         }
-
 
         public ActionResult EducationMgtView()
         {
@@ -1011,7 +1140,7 @@ namespace MyPortfolioWebApp.Controllers
             return View("UserMgt/UserMgtView", ulv);
         }
 
-        
+
         public ActionResult Home()
         {
 

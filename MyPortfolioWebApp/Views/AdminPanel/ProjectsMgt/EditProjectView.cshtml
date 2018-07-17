@@ -5,8 +5,35 @@
 
 @section Header{Edytuj projekt}
 
+@using (Html.BeginForm("UploadProjectIcon", "AdminPanel", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return confirm('Przed wysłaniem ikony powinieneś zapisać projekt, w innym przypadku stracisz niezapisane dane. Czy chcesz kontynuuować?');" }))
+{
+    <div class="modal fade" id="AddIcon" tabindex="-1" role="dialog" aria-labelledby="AddIconLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddIconLabel">Dodaj ikone</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        @Html.HiddenFor(m => m.ProjectId)
+                        @Html.TextBox("file", "", new { type = "file" }) <br />
+                    </div>
 
-@using (Html.BeginForm("UploadProjImage", "AdminPanel", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Dodaj</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@using (Html.BeginForm("UploadProjImage", "AdminPanel", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "return confirm('Przed wysłaniem zdjecia powinieneś zapisać projekt, w innym przypadku stracisz niezapisane dane. Czy chcesz kontynuuować?');" }))
 {
     <div class="modal fade" id="AddImage" tabindex="-1" role="dialog" aria-labelledby="AddImageLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
@@ -82,7 +109,7 @@
                 foreach (var i in imageList)
                 {
                     <div id="@Html.Raw("imageSection" + i.ImageId)" class="d-inline">
-                        <button id="@Html.Raw("delImageBtn" + i.ImageId)" style="display: none;" type="button" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveImageFromProject", "AdminPanel", new{tempProjectId = Model.ProjectId, imageId = i.ImageId})';return false;"></button>
+                        <button id="@Html.Raw("delImageBtn" + i.ImageId)" style="display: none;" type="button" class="btn btn-outline-danger btn-sm far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveImageFromProject", "AdminPanel", new{projectId = Model.ProjectId, imageId = i.ImageId})';return false;"></button>
 
                         @if (imageList.Count > 1 && k < imageList.Count - 1)
                         {
@@ -98,10 +125,18 @@
             }
 
         </p>
-        <p>
-            @Html.ValidationMessageFor(model => model.ImageLink, "*", new { @class = "text-danger" })
-            @Html.LabelFor(m => m.ImageLink, new { htmlAttributes = new { @class = "control-label" }, })
-            @Html.EditorFor(m => m.ImageLink, new { htmlAttributes = new { @class = "form-control" }, })
+        <p id="IconParagraf">
+            @{
+                if (string.IsNullOrEmpty(Model.ImageLink))
+                {
+                    <b>Ikona: </b> <button id="AddIconBtn" type="button" class="btn btn-outline-success far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddIcon"> Dodaj ikone</button>
+                }
+                else
+                {
+                    <b>Ikona: </b> @Html.Name(Model.ImageLink)
+                    <button id="RemoveIconBtn" type="button" class="btn btn-outline-danger far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveIconFromProject", "AdminPanel", new{projectId = Model.ProjectId})';return false;"></button>
+                }
+            }
         </p>
         <p>
             <label class="form-check-label">
@@ -165,6 +200,17 @@
     });
 </script>
 
+<script language="Javascript">
+    $('#ImageParagraf').mouseenter(function () {
+        $('#AddImageBtn').show();
+        $('#ImageParagraf').css("background", "#f5f5f0");
+    });
+    $('#ImageParagraf').mouseleave(function () {
+        $('#AddImageBtn').hide();
+        $('#ImageParagraf').css("background", "none");
+    });
+</script>
+
 @if (Model.Technologies != null)
 {
     foreach (var j in Model.Technologies)
@@ -172,7 +218,7 @@
         <script language="Javascript">
             $('@Html.Raw("#techSec" + j.Name.GetHashCode())').mouseenter(function () {
                 $('@Html.Raw("#" + j.Name.GetHashCode() + "delBtn")').show();
-                $('@Html.Raw("#techSec" + j.Name.GetHashCode())').css("background", "#deb887");
+                $('@Html.Raw("#techSec" + j.Name.GetHashCode())').css("background", "#dcdcd8");
             });
             $('@Html.Raw("#techSec" + j.Name.GetHashCode())').mouseleave(function () {
                 $('@Html.Raw("#" + j.Name.GetHashCode() + "delBtn")').hide();
@@ -183,7 +229,7 @@
 }
 
 @{
-    var imgList = MyPortfolioWebApp.Models.ViewModels.TempProjectViewModel.GetImagesForProject(Model.ProjectId);
+    var imgList = MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId);
     if (imgList != null)
     {
         foreach (var j in imgList)
@@ -191,7 +237,7 @@
             <script language="Javascript">
                 $('@Html.Raw("#imageSection" + j.ImageId)').mouseenter(function () {
                     $('@Html.Raw("#delImageBtn" + j.ImageId)').show();
-                    $('@Html.Raw("#imageSection" + j.ImageId)').css("background", "#deb887");
+                    $('@Html.Raw("#imageSection" + j.ImageId)').css("background", "#dcdcd8");
                 });
                 $('@Html.Raw("#imageSection" + j.ImageId)').mouseleave(function () {
                     $('@Html.Raw("#delImageBtn" + j.ImageId)').hide();
