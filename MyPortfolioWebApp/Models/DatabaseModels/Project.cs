@@ -9,12 +9,12 @@ namespace MyPortfolioWebApp.Models.DatabaseModels
     public class Project
     {
         public int ProjectId { get; set; }
-        public String Title { get; set; }
-        public String ShordDescription { get; set; }
-        public String FullDescription { get; set; }
+        public string Title { get; set; }
+        public string ShordDescription { get; set; }
+        public string FullDescription { get; set; }
         public bool Commercial { get; set; }
         public bool ShowInCv { get; set; }
-        public String ImageLink { get; set; }
+        public bool IsIcon { get; set; }
         public DateTime DateTimeCreated { get; set; }
         public string AuthorId { get; set; }
         public List<TechnologyViewModel> GetTechnologies(int projectId)
@@ -37,6 +37,14 @@ namespace MyPortfolioWebApp.Models.DatabaseModels
             }
             return technologies;
 
+        }
+        public static string GetIconLink(int projectId)
+        {
+            return @"https://damiandziuraportfolio.blob.core.windows.net/icons/" + GetIconName(projectId);
+        }
+        public static string GetIconName(int projectId)
+        {
+            return "Project" + projectId + "Icon.png";
         }
     }
 }

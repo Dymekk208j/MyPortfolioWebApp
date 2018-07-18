@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MyPortfolioWebApp.Models.ViewModels
 {
@@ -8,14 +7,14 @@ namespace MyPortfolioWebApp.Models.ViewModels
         [Display(Name = "Tytuł")]
         [Required(ErrorMessage = "Musisz wprowadzić tytuł")]
         [StringLength(50, ErrorMessage = "Tytuł może mieć maksymalnie 50 znaków")]
-        public String Title { get; set; }
+        public string Title { get; set; }
 
         [Display(Name = "Treść")]
         [Required(ErrorMessage = "Musisz wprowadzić treść")]
         [DataType(DataType.MultilineText)]
-        public String Text { get; set; }
+        public string Text { get; set; }
 
         [Display(Name = "Link do obrazka")]
-        public String ImageLink { get; set; }
+        public string ImageLink { get; set; }
     }
 }

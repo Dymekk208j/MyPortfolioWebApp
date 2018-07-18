@@ -12,13 +12,13 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public List<Achivment> Achivments { get; set; }
 
         [Display(Name = "Opis osiągnięcia")]
-        public String Description { get; set; }
+        public string Description { get; set; }
 
         [Display(Name = "Data osiągnięcia")]
         public DateTime Date { get; set; }
 
         [Display(Name = "Tytuł osiągnięcia")]
-        public String Title { get; set; }
+        public string Title { get; set; }
 
         [Display(Name = "Dodaj co CV")]
         public bool ShowInCv { get; set; }

@@ -7,9 +7,9 @@ namespace MyPortfolioWebApp.Models.DatabaseModels
     public class EmploymentHistory
     {
         public int EmploymentHistoryId { get; set; }
-        public String CompanyName { get; set; }
-        public String Position { get; set; }
-        public String CityOfEmployment { get; set; }
+        public string CompanyName { get; set; }
+        public string Position { get; set; }
+        public string CityOfEmployment { get; set; }
         [Column(TypeName = "datetime2")]
         public DateTime StartDate { get; set; }
         [Column(TypeName = "datetime2")]

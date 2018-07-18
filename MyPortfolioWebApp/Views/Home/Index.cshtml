@@ -1,4 +1,5 @@
-﻿@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
+﻿@using MyPortfolioWebApp.Models.DatabaseModels
+@model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
 
     <section class="skills">
         <div class="container">
@@ -103,15 +104,14 @@
 
             <div class="row">
                 <div class="col text-center">
-                    <div style="text-align: center;" >
-                        @if (String.IsNullOrEmpty(Model.ImageLink))
+                    <div style="text-align: center;">
+                        @if (!Model.IsIcon)
                         {
-                            <img class="rounded" src="~/Lib/images/PlaceHolder400x400.png" style="margin-bottom:2em;" alt=""/>
+                            <img class="rounded" src="~/Lib/images/PlaceHolder150x150.png" style="margin-bottom: 2em;" alt="" />
                         }
                         else
                         {
-                            <img class="rounded
-                                 " src="@Model.ImageLink" style="margin-bottom:2em;" alt=""/>
+                            <img class="rounded" src="@Html.Raw(Project.GetIconLink(Model.ProjectId))" style="margin-bottom: 2em;" alt="" />
                         }
                     </div>
                 </div>

@@ -824,7 +824,7 @@ $.extend( $.validator, {
 		// Return the custom message for the given element name and validation method
 		customMessage: function( name, method ) {
 			var m = this.settings.messages[ name ];
-			return m && ( m.constructor === String ? m : m[ method ] );
+			return m && ( m.constructor === string ? m : m[ method ] );
 		},
 
 		// Return the first defined argument, allowing empty strings
@@ -1159,7 +1159,7 @@ $.extend( $.validator, {
 	},
 
 	addClassRules: function( className, rules ) {
-		if ( className.constructor === String ) {
+		if ( className.constructor === string ) {
 			this.classRuleSettings[ className ] = rules;
 		} else {
 			$.extend( this.classRuleSettings, className );

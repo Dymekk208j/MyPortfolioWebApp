@@ -1,15 +1,14 @@
 ﻿using System;
-using AutoMapper;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using Microsoft.AspNet.Identity;
 using MyPortfolioWebApp.Models;
 using MyPortfolioWebApp.Models.DatabaseModels;
 using MyPortfolioWebApp.Models.ViewModels;
-using Image = MyPortfolioWebApp.Models.DatabaseModels.Image;
 
 namespace MyPortfolioWebApp.Controllers
 
@@ -19,14 +18,15 @@ namespace MyPortfolioWebApp.Controllers
     {
         private ApplicationDbContext _db;
         private CvViewModel _cvViewModel;
+
         public ActionResult UploadProjectIcon(HttpPostedFileBase file, int projectId)
         {
             string error = "";
 
             _db = new ApplicationDbContext();
             var project = (from u in _db.Projects where u.ProjectId == projectId select u).First();
-            string fileName = "IconProj" + projectId + ".png";
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), fileName);
+            string fileName = Project.GetIconName(projectId);
+
             var img = System.Drawing.Image.FromStream(file.InputStream, true, true);
             if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
             if (img.Width < 50 || img.Height < 50) error = "Minimalny rozmiar ikony to 50x50px.";
@@ -34,42 +34,37 @@ namespace MyPortfolioWebApp.Controllers
 
             if (file.ContentLength > 0 && string.IsNullOrEmpty(error))
             {
-                file.SaveAs(path);
-                project.ImageLink = fileName;
+                BlobConnector.UploadIcon(file, projectId, true);
+                project.IsIcon = true;
                 _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
                 _db.SaveChanges();
             }
+            else error = "Błąd wgrywania pliku";
 
             return RedirectToAction("EditProjectView", new { projectId, error });
         }
+
         public ActionResult RemoveIconFromProject(int projectId)
         {
-            string error = "";
-
             _db = new ApplicationDbContext();
             var project = (from u in _db.Projects where u.ProjectId == projectId select u).First();
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), project.ImageLink);
 
-            if (!System.IO.File.Exists(path))
-            {
-                error = "Nie znaleziono pliku";
-                return RedirectToAction("EditProjectView", new { TempProjectId = projectId, error });
-            }
-            System.IO.File.Delete(path);
-            project.ImageLink = "";
+            BlobConnector.RemoveIcon(projectId, true);
+            project.IsIcon = false;
             _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
 
-            return RedirectToAction("EditProjectView", new { projectId, error });
+            return RedirectToAction("EditProjectView", new { projectId });
         }
+
         public ActionResult UploadTempProjectIcon(HttpPostedFileBase file, int tempProjectId)
         {
             string error = "";
 
             _db = new ApplicationDbContext();
             var project = (from u in _db.TempProjects where u.TempProjectId == tempProjectId select u).First();
-            string fileName = "IconTempProj" + tempProjectId + ".png";
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), fileName);
+            string fileName = TempProject.GetIconName(tempProjectId);
+
             var img = System.Drawing.Image.FromStream(file.InputStream, true, true);
             if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
             if (img.Width < 50 || img.Height < 50) error = "Minimalny rozmiar ikony to 50x50px.";
@@ -77,34 +72,30 @@ namespace MyPortfolioWebApp.Controllers
 
             if (file.ContentLength > 0 && string.IsNullOrEmpty(error))
             {
-                file.SaveAs(path);
-                project.ImageLink = fileName;
+                BlobConnector.UploadIcon(file, tempProjectId, false);
+                project.IsIcon = true;
                 _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
                 _db.SaveChanges();
             }
+            else error = "Błąd wgrywania pliku";
+
 
             return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId, error });
         }
+
         public ActionResult RemoveIconFromTempProject(int tempProjectId)
         {
-            string error = "";
-
             _db = new ApplicationDbContext();
             var project = (from u in _db.TempProjects where u.TempProjectId == tempProjectId select u).First();
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), project.ImageLink);
-
-            if (!System.IO.File.Exists(path))
-            {
-                error = "Nie znaleziono pliku";
-                return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId, error });
-            }
-            System.IO.File.Delete(path);
-            project.ImageLink = "";
+            
+            BlobConnector.RemoveIcon(tempProjectId, false);
+            project.IsIcon = false;
             _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
             _db.SaveChanges();
 
-            return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId, error });
+            return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId });
         }
+
         public ActionResult CreateProjectFromTempProject(int projectId)
         {
             _db = new ApplicationDbContext();
@@ -113,11 +104,11 @@ namespace MyPortfolioWebApp.Controllers
                                where x.TempProjectId == projectId
                                select x).FirstOrDefault();
             Project project = Mapper.Map<TempProject, Project>(tempProject);
-           
+
             if (tempProject != null) _db.Projects.Add(project);
             _db.SaveChanges();
 
-            project.ImageLink = "IconProj" + project.ProjectId + ".png";
+          //  project.ImageLink = "IconProj" + project.ProjectId + ".png";
             System.IO.File.Move(Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconTempProj" + projectId + ".png"),
                 Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconProj" + project.ProjectId + ".png"));
 
@@ -128,7 +119,7 @@ namespace MyPortfolioWebApp.Controllers
             bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
             if (!exists) Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
 
-           
+
 
             ApplicationDbContext db2 = new ApplicationDbContext();
             var tempProjectTechnologies = from x in db2.TempProjectTechnologies

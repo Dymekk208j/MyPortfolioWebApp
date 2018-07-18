@@ -963,7 +963,7 @@ window.Modernizr = (function( window, document, undefined ) {
      * the result will be added onto the Modernizr object,
      * as well as an appropriate className set on the html element
      *
-     * @param feature - String naming the feature
+     * @param feature - string naming the feature
      * @param test - Function returning true if feature is supported, false if not
      */
      Modernizr.addTest = function ( feature, test ) {
@@ -1067,7 +1067,7 @@ window.Modernizr = (function( window, document, undefined ) {
          * Creates a style sheet with the given CSS text and adds it to the document.
          * @private
          * @param {Document} ownerDocument The document.
-         * @param {String} cssText The CSS text.
+         * @param {string} cssText The CSS text.
          * @returns {StyleSheet} The style element.
          */
         function addStyleSheet(ownerDocument, cssText) {
@@ -1108,7 +1108,7 @@ window.Modernizr = (function( window, document, undefined ) {
         /**
          * returns a shived element for the given nodeName and document
          * @memberOf html5
-         * @param {String} nodeName name of the element
+         * @param {string} nodeName name of the element
          * @param {Document} ownerDocument The context document.
          * @returns {Object} The shived element.
          */
@@ -1248,7 +1248,7 @@ window.Modernizr = (function( window, document, undefined ) {
           /**
            * An array or space separated string of node names of the elements to shiv.
            * @memberOf html5
-           * @type Array|String
+           * @type Array|string
            */
           'elements': options.elements || 'abbr article aside audio bdi canvas data datalist details dialog figcaption figure footer header hgroup main mark meter nav output progress section summary template time video',
 
@@ -1282,7 +1282,7 @@ window.Modernizr = (function( window, document, undefined ) {
           /**
            * A string to describe the type of `html5` object ("default" or "default print").
            * @memberOf html5
-           * @type String
+           * @type string
            */
           'type': 'default',
 

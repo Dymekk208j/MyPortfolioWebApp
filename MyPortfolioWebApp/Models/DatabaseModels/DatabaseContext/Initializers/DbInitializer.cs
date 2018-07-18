@@ -78,10 +78,10 @@ namespace MyPortfolioWebApp.Models.DatabaseModels.DatabaseContext.Initializers
 
             var projects = new List<Project>
             {
-                new Project() { ProjectId = 1, FullDescription = "Pelen opis pierwszego projektu", ShordDescription = "krotki opis pierwszego projektu",  Title="Tytul pierwszego projektu", Commercial = true, ShowInCv = true, DateTimeCreated = new DateTime(2016, 1, 1, 01, 01, 01), ImageLink = "/Lib/images/PlaceHolder150x150.png" },
-                new Project() { ProjectId = 2, FullDescription = "Pelen opis drugiego projektu", ShordDescription = "krotki opis drugiego projektu",  Title="Tytul drugiego projektu", Commercial = false, ShowInCv = true,  DateTimeCreated = new DateTime(2017, 1, 1, 01, 01, 01), ImageLink = "/Lib/images/PlaceHolder150x150.png" },
-                new Project() { ProjectId = 3, FullDescription = "Pelen opis trzeciego projektu", ShordDescription = "krotki opis trzeciego projektu",  Title="Tytul trzeciego projektu", Commercial = true, ShowInCv = false,  DateTimeCreated = new DateTime(2018, 1, 1, 01, 01, 01), ImageLink = "/Lib/images/PlaceHolder150x150.png" },
-                new Project() { ProjectId = 4, FullDescription = "Pelen opis czwartego projektu", ShordDescription = "krotki opis czwartego projektu",  Title="Tytul czwartego projektu", Commercial = false, ShowInCv = false,  DateTimeCreated = new DateTime(2019, 1, 1, 01, 01, 01), ImageLink = "/Lib/images/PlaceHolder150x150.png" }
+                new Project() { ProjectId = 1, FullDescription = "Pelen opis pierwszego projektu", ShordDescription = "krotki opis pierwszego projektu",  Title="Tytul pierwszego projektu", Commercial = true, ShowInCv = true, DateTimeCreated = new DateTime(2016, 1, 1, 01, 01, 01), IsIcon = false },
+                new Project() { ProjectId = 2, FullDescription = "Pelen opis drugiego projektu", ShordDescription = "krotki opis drugiego projektu",  Title="Tytul drugiego projektu", Commercial = false, ShowInCv = true,  DateTimeCreated = new DateTime(2017, 1, 1, 01, 01, 01), IsIcon = false },
+                new Project() { ProjectId = 3, FullDescription = "Pelen opis trzeciego projektu", ShordDescription = "krotki opis trzeciego projektu",  Title="Tytul trzeciego projektu", Commercial = true, ShowInCv = false,  DateTimeCreated = new DateTime(2018, 1, 1, 01, 01, 01), IsIcon = false },
+                new Project() { ProjectId = 4, FullDescription = "Pelen opis czwartego projektu", ShordDescription = "krotki opis czwartego projektu",  Title="Tytul czwartego projektu", Commercial = false, ShowInCv = false,  DateTimeCreated = new DateTime(2019, 1, 1, 01, 01, 01), IsIcon = false }
 
             };
             projects.ForEach(g => context.Projects.Add(g));

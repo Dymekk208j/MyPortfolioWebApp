@@ -27,7 +27,7 @@
  * @method
  * @memberof Popper.Utils
  * @argument {Eement} element
- * @argument {String} property
+ * @argument {string} property
  */
 function getStyleComputedProperty(element, property) {
   if (element.nodeType !== 1) {
@@ -231,7 +231,7 @@ function findCommonOffsetParent(element1, element2) {
  * @method
  * @memberof Popper.Utils
  * @argument {Element} element
- * @argument {String} side `top` or `left`
+ * @argument {string} side `top` or `left`
  * @returns {number} amount of scrolled pixels
  */
 function getScroll(element) {
@@ -277,7 +277,7 @@ function includeScroll(rect, element) {
  * @memberof Popper.Utils
  * @param {CSSStyleDeclaration} styles
  * Result of `getStyleComputedProperty` on the given element
- * @param {String} axis - `x` or `y`
+ * @param {string} axis - `x` or `y`
  * @return {number} borders - The borders size of the given axis
  */
 
@@ -777,8 +777,8 @@ function getOuterSizes(element) {
  * Get the opposite placement of the given one
  * @method
  * @memberof Popper.Utils
- * @argument {String} placement
- * @returns {String} flipped placement
+ * @argument {string} placement
+ * @returns {string} flipped placement
  */
 function getOppositePlacement(placement) {
   var hash = { left: 'right', right: 'left', bottom: 'top', top: 'bottom' };
@@ -794,7 +794,7 @@ function getOppositePlacement(placement) {
  * @param {Object} position - CSS position the Popper will get applied
  * @param {HTMLElement} popper - the popper element
  * @param {Object} referenceOffsets - the reference offsets (the popper will be relative to this)
- * @param {String} placement - one of the valid placement options
+ * @param {string} placement - one of the valid placement options
  * @returns {Object} popperOffsets - An object containing the offsets which will be applied to the popper
  */
 function getPopperOffsets(popper, referenceOffsets, placement) {
@@ -847,8 +847,8 @@ function getReferenceOffsets(state, popper, reference) {
  * Get the prefixed supported property name
  * @method
  * @memberof Popper.Utils
- * @argument {String} property (camelCase)
- * @returns {String} prefixed property (camelCase or PascalCase, depending on the vendor prefix)
+ * @argument {string} property (camelCase)
+ * @returns {string} prefixed property (camelCase or PascalCase, depending on the vendor prefix)
  */
 function getSupportedPropertyName(property) {
   var prefixes = [false, 'ms', 'Webkit', 'Moz', 'O'];
@@ -896,8 +896,8 @@ function isModifierEnabled(modifiers, modifierName) {
  * @method
  * @memberof Popper.Utils
  * @param {Array} modifiers - list of modifiers
- * @param {String} requestingName - name of requesting modifier
- * @param {String} requestedName - name of requested modifier
+ * @param {string} requestingName - name of requesting modifier
+ * @param {string} requestedName - name of requested modifier
  * @returns {Boolean}
  */
 function isModifierRequired(modifiers, requestingName, requestedName) {
@@ -969,7 +969,7 @@ function removeEventListeners(reference, state) {
  * @memberof Popper.Utils
  * @param {dataObject} data
  * @param {Array} modifiers
- * @param {String} ends - Optional modifier name used as stopper
+ * @param {string} ends - Optional modifier name used as stopper
  * @returns {dataObject}
  */
 function runModifiers(modifiers, data, ends) {

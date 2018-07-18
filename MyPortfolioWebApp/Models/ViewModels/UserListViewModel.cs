@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 
@@ -9,7 +8,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
     {
         public List<ApplicationUser> List;
         public int? Page;
-        public String Filters;
+        public string Filters;
 
         public bool IsNextPage { get; }
         public bool IsPreviousPage { get; }

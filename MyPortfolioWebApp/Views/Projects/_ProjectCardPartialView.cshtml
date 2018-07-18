@@ -1,4 +1,5 @@
 ﻿@using MyPortfolioWebApp.Controllers
+@using MyPortfolioWebApp.Models.DatabaseModels
 @model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
 <div class="row">
     <div class="col">
@@ -8,9 +9,6 @@
                     <h3 class="mb-0">@Html.DisplayFor(m => m.Title)</h3>
                     <footer class="blockquote-footer">
                         <b>Data utworzenia:</b> @Html.Name(Model.DateTimeCreated.ToShortDateString())
-                        @{
-                            //TODO: Poprawić wyświetlanie autora
-                        }
                         <b style="margin-left: 1em;">Autor:</b> <a href="#">@Html.Name(AccountController.GetAuthorName(Model.AuthorId)) </a>
                         <b style="margin-left: 1em;">Technologie:</b>
                         @if (Model.GetTechnologies(Model.ProjectId) != null)
@@ -36,22 +34,19 @@
             </div>
 
             <div class="card-body">
-                @if (String.IsNullOrEmpty(Model.ImageLink))
+                @if (!Model.IsIcon)
                 {
-                    <img class="float-md-left rounded" src="~/Lib/images/PlaceHolder150x150.png" style="margin-right:2em;" />
+                    <img class="float-md-left rounded" src="~/Lib/images/PlaceHolder150x150.png" style="margin-bottom: 2em;" alt="" />
                 }
                 else
                 {
-                    <img class="float-md-left rounded" src="@Model.ImageLink" style="margin-right:2em;" />
+                    <img class="float-md-left rounded" src="@Html.Raw(Project.GetIconLink(Model.ProjectId))" style="margin-bottom: 2em;" alt="" />
                 }
 
                 <div class="media-body">
                     <p style="text-indent: 2%;">
                         @Html.DisplayFor(m => m.ShordDescription)
                     </p>
-
-
-
                 </div>
             </div>
 

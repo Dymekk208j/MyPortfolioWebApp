@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using MyPortfolioWebApp.Models.DatabaseModels;
 
@@ -11,24 +10,24 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         [Display(Name = "Link do profilu na portalu GitHub")]
         [Required(ErrorMessage = "Link do profilu na githuba jest wymagany")]
-        public String GitHubLink { get; set; }
+        public string GitHubLink { get; set; }
 
         [Display(Name = "Link do profilu na portali LinkedIn")]
         [Required(ErrorMessage = "Link do profilu na LinkedIn jest wymagany")]
-        public String LinkedInLink { get; set; }
+        public string LinkedInLink { get; set; }
 
         [Display(Name = "Link do profilu na portalu Facebook")]
-        public String FacebookLink { get; set; }
+        public string FacebookLink { get; set; }
 
         [Display(Name = "Głowny adres e-mail")]
         [Required(ErrorMessage = "Głowny adres e-mail jest wymagany")]
-        public String Email1 { get; set; }
+        public string Email1 { get; set; }
 
         [Display(Name = "Pomocniczy adres e-mail")]
-        public String Email2 { get; set; }
+        public string Email2 { get; set; }
 
         [Display(Name = "Numer telefonu")]
-        public String PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         public ContactViewModel()
         {

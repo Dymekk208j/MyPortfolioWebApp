@@ -1,4 +1,5 @@
-﻿@model MyPortfolioWebApp.Models.ViewModels.TempProjectViewModel
+﻿@using MyPortfolioWebApp.Models.DatabaseModels
+@model MyPortfolioWebApp.Models.ViewModels.TempProjectViewModel
 @{
     Layout = "~/Views/Shared/_AdminPanelLayout.cshtml";
 }
@@ -128,13 +129,13 @@
         </p>
         <p id="IconParagraf">
             @{
-                if (string.IsNullOrEmpty(Model.ImageLink))
+                if (!Model.IsIcon)
                 {
                     <b>Ikona: </b> <button id="AddIconBtn" type="button" class="btn btn-outline-success far fa-plus-square text-right button-xs" data-toggle="modal" data-target="#AddIcon"> Dodaj ikone</button>
                 }
                 else
                 {
-                    <b>Ikona: </b> @Html.Name(Model.ImageLink)
+                    <b>Ikona: </b> @Html.Name(TempProject.GetIconName(Model.TempProjectId)) 
                     <button id="RemoveIconBtn" type="button" class="btn btn-outline-danger far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveIconFromTempProject", "AdminPanel", new{tempProjectId = Model.TempProjectId})';return false;"></button>
                 }
             }

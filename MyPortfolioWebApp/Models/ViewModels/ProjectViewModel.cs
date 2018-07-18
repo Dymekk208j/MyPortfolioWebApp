@@ -13,19 +13,19 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         public int? SelectedTechnology { get; set; }
         [Display(Name = "Tytuł")]
-        public String Title { get; set; }
+        public string Title { get; set; }
 
         [Display(Name = "Krótki opis")]
-        public String ShordDescription { get; set; }
+        public string ShordDescription { get; set; }
 
         [Display(Name = "Pełen opis")]
-        public String FullDescription { get; set; }
+        public string FullDescription { get; set; }
 
         [Display(Name = "Projekt komercyjny")]
         public bool Commercial { get; set; }
 
-        [Display(Name = "Link do obrazka")]
-        public String ImageLink { get; set; }
+        [Display(Name = "Czy została dodana ikona")]
+        public bool IsIcon { get; set; }
 
         public List<TechnologyViewModel> Technologies { get; set; }
 
@@ -38,6 +38,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
             return "/UploadedFiles/Project" + projectId + "Data/";
         }
 
+     
         public static List<Image> GetImagesForProject(int projectId)
         {
             List<Image> images = new List<Image>();
@@ -109,7 +110,5 @@ namespace MyPortfolioWebApp.Models.ViewModels
             }
             return techList;
         }
-
-
     }
 }

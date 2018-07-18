@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MyPortfolioWebApp.Models.ViewModels
@@ -13,7 +12,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public List<StrType> TypeList { get; set; } //0 - jezyki obce, 1 - dodatkowe umiejetnosci, 2 - zainteresowania
 
         [Display(Name = "Tytuł")]
-        public String Title { get; set; }
+        public string Title { get; set; }
 
         [Display(Name = "Dodaj do CV")]
         public bool ShowInCv { get; set; }
@@ -28,7 +27,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public class StrType
         {
             public int Id { get; set; }
-            public String Name { get; set; }
+            public string Name { get; set; }
            
                 public StrType(int id, string name)
             {

@@ -9,13 +9,13 @@ namespace MyPortfolioWebApp.Models.ViewModels
     {
         public int EducationId { get; set; }
         [Display(Name = "Nazwa szkoły/uczelni")]
-        public String SchooleName { get; set; }
+        public string SchooleName { get; set; }
 
         [Display(Name = "Poziom szkoły/Wydział")]
-        public String Department { get; set; }
+        public string Department { get; set; }
 
         [Display(Name = "Specjalizacja")]
-        public String Specialization { get; set; }
+        public string Specialization { get; set; }
 
         [Display(Name = "Data rozpoczęcia")]
         [Column(TypeName = "datetime2")]
@@ -33,8 +33,8 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public bool ShowInCv { get; set; }
 
 
-        public String StrStartDate => DateTime.ParseExact(StartDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        public string StrStartDate => DateTime.ParseExact(StartDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-        public String StrEndDate => DateTime.ParseExact(EndDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        public string StrEndDate => DateTime.ParseExact(EndDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
     }
 }

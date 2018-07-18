@@ -11,16 +11,16 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public int EmploymentHistoryId { get; set; }
         [Required]
         [Display(Name = "Nazwa firmy")]
-        public String CompanyName { get; set; }
+        public string CompanyName { get; set; }
 
         [Required]
 
         [Display(Name = "Stanowisko")]
-        public String Position { get; set; }
+        public string Position { get; set; }
 
         [Required]
         [Display(Name = "Miasto")]
-        public String CityOfEmployment { get; set; }
+        public string CityOfEmployment { get; set; }
 
         [Required]
         [Display(Name = "Data rozpoczęcia")]
@@ -39,8 +39,8 @@ namespace MyPortfolioWebApp.Models.ViewModels
         [Display(Name = "Dodaj co CV")]
         public bool ShowInCv { get; set; }
 
-        public String StrStartDate => DateTime.ParseExact(StartDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        public string StrStartDate => DateTime.ParseExact(StartDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
 
-        public String StrEndDate => DateTime.ParseExact(EndDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+        public string StrEndDate => DateTime.ParseExact(EndDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
     }
 }

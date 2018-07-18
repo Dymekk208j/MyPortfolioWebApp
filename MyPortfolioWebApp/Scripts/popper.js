@@ -89,7 +89,7 @@ function isFunction(functionToCheck) {
  * @method
  * @memberof Popper.Utils
  * @argument {Eement} element
- * @argument {String} property
+ * @argument {string} property
  */
 function getStyleComputedProperty(element, property) {
   if (element.nodeType !== 1) {
@@ -282,7 +282,7 @@ function findCommonOffsetParent(element1, element2) {
  * @method
  * @memberof Popper.Utils
  * @argument {Element} element
- * @argument {String} side `top` or `left`
+ * @argument {string} side `top` or `left`
  * @returns {number} amount of scrolled pixels
  */
 function getScroll(element, side = 'top') {
@@ -324,7 +324,7 @@ function includeScroll(rect, element, subtract = false) {
  * @memberof Popper.Utils
  * @param {CSSStyleDeclaration} styles
  * Result of `getStyleComputedProperty` on the given element
- * @param {String} axis - `x` or `y`
+ * @param {string} axis - `x` or `y`
  * @return {number} borders - The borders size of the given axis
  */
 
@@ -691,8 +691,8 @@ function getOuterSizes(element) {
  * Get the opposite placement of the given one
  * @method
  * @memberof Popper.Utils
- * @argument {String} placement
- * @returns {String} flipped placement
+ * @argument {string} placement
+ * @returns {string} flipped placement
  */
 function getOppositePlacement(placement) {
   const hash = { left: 'right', right: 'left', bottom: 'top', top: 'bottom' };
@@ -706,7 +706,7 @@ function getOppositePlacement(placement) {
  * @param {Object} position - CSS position the Popper will get applied
  * @param {HTMLElement} popper - the popper element
  * @param {Object} referenceOffsets - the reference offsets (the popper will be relative to this)
- * @param {String} placement - one of the valid placement options
+ * @param {string} placement - one of the valid placement options
  * @returns {Object} popperOffsets - An object containing the offsets which will be applied to the popper
  */
 function getPopperOffsets(popper, referenceOffsets, placement) {
@@ -784,7 +784,7 @@ function findIndex(arr, prop, value) {
  * @memberof Popper.Utils
  * @param {dataObject} data
  * @param {Array} modifiers
- * @param {String} ends - Optional modifier name used as stopper
+ * @param {string} ends - Optional modifier name used as stopper
  * @returns {dataObject}
  */
 function runModifiers(modifiers, data, ends) {
@@ -876,8 +876,8 @@ function isModifierEnabled(modifiers, modifierName) {
  * Get the prefixed supported property name
  * @method
  * @memberof Popper.Utils
- * @argument {String} property (camelCase)
- * @returns {String} prefixed property (camelCase or PascalCase, depending on the vendor prefix)
+ * @argument {string} property (camelCase)
+ * @returns {string} prefixed property (camelCase or PascalCase, depending on the vendor prefix)
  */
 function getSupportedPropertyName(property) {
   const prefixes = [false, 'ms', 'Webkit', 'Moz', 'O'];
@@ -1213,8 +1213,8 @@ function computeStyle(data, options) {
  * @method
  * @memberof Popper.Utils
  * @param {Array} modifiers - list of modifiers
- * @param {String} requestingName - name of requesting modifier
- * @param {String} requestedName - name of requested modifier
+ * @param {string} requestingName - name of requesting modifier
+ * @param {string} requestedName - name of requested modifier
  * @returns {Boolean}
  */
 function isModifierRequired(modifiers, requestingName, requestedName) {
@@ -1316,8 +1316,8 @@ function arrow(data, options) {
  * Get the opposite placement variation of the given one
  * @method
  * @memberof Popper.Utils
- * @argument {String} placement variation
- * @returns {String} flipped placement variation
+ * @argument {string} placement variation
+ * @returns {string} flipped placement variation
  */
 function getOppositeVariation(variation) {
   if (variation === 'end') {
@@ -1354,7 +1354,7 @@ function getOppositeVariation(variation) {
  *
  * @static
  * @type {Array}
- * @enum {String}
+ * @enum {string}
  * @readonly
  * @method placements
  * @memberof Popper
@@ -1370,7 +1370,7 @@ const validPlacements = placements.slice(3);
  *
  * @method
  * @memberof Popper.Utils
- * @argument {String} placement - A valid placement (it accepts variations)
+ * @argument {string} placement - A valid placement (it accepts variations)
  * @argument {Boolean} counter - Set to true to walk the placements counterclockwise
  * @returns {Array} placements including their variations
  */
@@ -1507,11 +1507,11 @@ function keepTogether(data) {
  * @function
  * @memberof {modifiers~offset}
  * @private
- * @argument {String} str - Value + unit string
- * @argument {String} measurement - `height` or `width`
+ * @argument {string} str - Value + unit string
+ * @argument {string} measurement - `height` or `width`
  * @argument {Object} popperOffsets
  * @argument {Object} referenceOffsets
- * @returns {Number|String}
+ * @returns {Number|string}
  * Value in pixels, or original string if no values were extracted
  */
 function toValue(str, measurement, popperOffsets, referenceOffsets) {
@@ -1560,10 +1560,10 @@ function toValue(str, measurement, popperOffsets, referenceOffsets) {
  * @function
  * @memberof {modifiers~offset}
  * @private
- * @argument {String} offset
+ * @argument {string} offset
  * @argument {Object} popperOffsets
  * @argument {Object} referenceOffsets
- * @argument {String} basePlacement
+ * @argument {string} basePlacement
  * @returns {Array} a two cells array with x and y offsets in numbers
  */
 function parseOffset(offset, popperOffsets, referenceOffsets, basePlacement) {
@@ -1632,7 +1632,7 @@ function parseOffset(offset, popperOffsets, referenceOffsets, basePlacement) {
  * @memberof Modifiers
  * @argument {Object} data - The data object generated by update method
  * @argument {Object} options - Modifiers configuration and options
- * @argument {Number|String} options.offset=0
+ * @argument {Number|string} options.offset=0
  * The offset value as described in the modifier description
  * @returns {Object} The data object, properly modified
  */
@@ -1860,8 +1860,8 @@ var modifiers = {
    * This means that if the placement is `top` or `bottom`, the length will be the
    * `width`. In case of `left` or `right`, it will be the height.
    *
-   * You can provide a single value (as `Number` or `String`), or a pair of values
-   * as `String` divided by a comma or one (or more) white spaces.<br />
+   * You can provide a single value (as `Number` or `string`), or a pair of values
+   * as `string` divided by a comma or one (or more) white spaces.<br />
    * The latter is a deprecated method because it leads to confusion and will be
    * removed in v2.<br />
    * Additionally, it accepts additions and subtractions between different units.
@@ -1891,7 +1891,7 @@ var modifiers = {
     enabled: true,
     /** @prop {ModifierFn} */
     fn: offset,
-    /** @prop {Number|String} offset=0
+    /** @prop {Number|string} offset=0
      * The offset value as described in the modifier description
      */
     offset: 0
@@ -1935,7 +1935,7 @@ var modifiers = {
      */
     padding: 5,
     /**
-     * @prop {String|HTMLElement} boundariesElement='scrollParent'
+     * @prop {string|HTMLElement} boundariesElement='scrollParent'
      * Boundaries used by the modifier, can be `scrollParent`, `window`,
      * `viewport` or any DOM element.
      */
@@ -1977,7 +1977,7 @@ var modifiers = {
     enabled: true,
     /** @prop {ModifierFn} */
     fn: arrow,
-    /** @prop {String|HTMLElement} element='[x-arrow]' - Selector or node used as arrow */
+    /** @prop {string|HTMLElement} element='[x-arrow]' - Selector or node used as arrow */
     element: '[x-arrow]'
   },
 
@@ -2000,7 +2000,7 @@ var modifiers = {
     /** @prop {ModifierFn} */
     fn: flip,
     /**
-     * @prop {String|Array} behavior='flip'
+     * @prop {string|Array} behavior='flip'
      * The behavior used to change the popper's placement. It can be one of
      * `flip`, `clockwise`, `counterclockwise` or an array with a list of valid
      * placements (with optional variations).
@@ -2012,7 +2012,7 @@ var modifiers = {
      */
     padding: 5,
     /**
-     * @prop {String|HTMLElement} boundariesElement='viewport'
+     * @prop {string|HTMLElement} boundariesElement='viewport'
      * The element which will define the boundaries of the popper position,
      * the popper will never be placed outside of the defined boundaries
      * (except if keepTogether is enabled)
@@ -2136,8 +2136,8 @@ var modifiers = {
  * this object get passed to modifiers and to the `onCreate` and `onUpdate` callbacks.
  * @name dataObject
  * @property {Object} data.instance The Popper.js instance
- * @property {String} data.placement Placement applied to popper
- * @property {String} data.originalPlacement Placement originally defined on init
+ * @property {string} data.placement Placement applied to popper
+ * @property {string} data.originalPlacement Placement originally defined on init
  * @property {Boolean} data.flipped True if popper has been flipped by flip modifier
  * @property {Boolean} data.hide True if the reference element is out of boundaries, useful to know when to hide the popper.
  * @property {HTMLElement} data.arrowElement Node used as arrow by arrow modifier
