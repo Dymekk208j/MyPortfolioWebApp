@@ -16,21 +16,25 @@
                         <b>Data utworzenia:</b> @Html.Name(Model.DateTimeCreated.ToShortDateString())
                         <b style="margin-left: 1em;">Autor:</b> <a href="#">@Html.Name(AccountController.GetAuthorName(Model.AuthorId)) </a>
                         <b style="margin-left: 1em;">Technologie:</b>
-                        @if (Model.GetTechnologies(Model.ProjectId) != null)
-                        {
-                            int a = 0;
-                            foreach (var i in Model.GetTechnologies(Model.ProjectId))
+                        @{
+                            Model.Technologies = Model.GetTechnologies(Model.ProjectId);
+                            int techCount = Model.Technologies.Count();
+                            if (Model.Technologies.Any())
                             {
+                                int a = 0;
+                                foreach (var i in Model.Technologies)
+                                {
 
-                                if (Model.GetTechnologies(Model.ProjectId).Count > 1 && a < Model.GetTechnologies(Model.ProjectId).Count - 1)
-                                {
-                                    <a href="#">@Html.Raw(i.Name),</a>
+                                    if (techCount > 1 && a < techCount - 1)
+                                    {
+                                        <a href="#">@Html.Raw(i.Name),</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#">@Html.Raw(i.Name)</a>
+                                    }
+                                    a++;
                                 }
-                                else
-                                {
-                                    <a href="#">@Html.Raw(i.Name)</a>
-                                }
-                                a++;
                             }
                         }
                     </footer>
