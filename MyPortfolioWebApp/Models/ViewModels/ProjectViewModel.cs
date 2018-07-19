@@ -32,12 +32,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public DateTime DateTimeCreated { get; set; }
 
         public string AuthorId { get; set; }
-
-        public static string GetPath(int projectId)
-        {
-            return "/UploadedFiles/Project" + projectId + "Data/";
-        }
-
+        
      
         public static List<Image> GetImagesForProject(int projectId)
         {

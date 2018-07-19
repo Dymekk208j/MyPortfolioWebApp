@@ -44,11 +44,11 @@
                         int imagesAmount = MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId).Count();
                         int counter = 1;
                         <div class="slideshow-container">
-                            @foreach (var var in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+                            @foreach (var i in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
                             {
                                 <div class="mySlides fade">
                                     <div class="numbertext">@Html.Raw(counter) / @Html.Raw(imagesAmount)</div>
-                                    <img src="@Html.Raw(MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetPath(Model.ProjectId) + var.FileName)" style="width: 100%">
+                                    <img src="@Html.Raw(i.GetImageLink())" style="width: 100%">
                                     <div class="text">Caption Text</div>
                                 </div>
                                 counter++;

@@ -25,12 +25,12 @@ namespace MyPortfolioWebApp.Controllers
 
             _db = new ApplicationDbContext();
             var project = (from u in _db.Projects where u.ProjectId == projectId select u).First();
-            string fileName = Project.GetIconName(projectId);
 
             var img = System.Drawing.Image.FromStream(file.InputStream, true, true);
             if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
             if (img.Width < 50 || img.Height < 50) error = "Minimalny rozmiar ikony to 50x50px.";
 
+            file.InputStream.Seek(0, SeekOrigin.Begin);
 
             if (file.ContentLength > 0 && string.IsNullOrEmpty(error))
             {
@@ -69,6 +69,7 @@ namespace MyPortfolioWebApp.Controllers
             if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
             if (img.Width < 50 || img.Height < 50) error = "Minimalny rozmiar ikony to 50x50px.";
 
+            file.InputStream.Seek(0, SeekOrigin.Begin);
 
             if (file.ContentLength > 0 && string.IsNullOrEmpty(error))
             {
@@ -87,7 +88,7 @@ namespace MyPortfolioWebApp.Controllers
         {
             _db = new ApplicationDbContext();
             var project = (from u in _db.TempProjects where u.TempProjectId == tempProjectId select u).First();
-            
+
             BlobConnector.RemoveIcon(tempProjectId, false);
             project.IsIcon = false;
             _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
@@ -108,7 +109,7 @@ namespace MyPortfolioWebApp.Controllers
             if (tempProject != null) _db.Projects.Add(project);
             _db.SaveChanges();
 
-          //  project.ImageLink = "IconProj" + project.ProjectId + ".png";
+            //  project.ImageLink = "IconProj" + project.ProjectId + ".png";
             System.IO.File.Move(Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconTempProj" + projectId + ".png"),
                 Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconProj" + project.ProjectId + ".png"));
 
@@ -425,14 +426,9 @@ namespace MyPortfolioWebApp.Controllers
 
             if (image == null) return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
 
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/TempProject" + image.ProjectId + "Data"), image.FileName);
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-                db.Images.Remove(image);
-                db.SaveChanges();
-            }
+            BlobConnector.RemoveImage(image);
+            db.Images.Remove(image);
+            db.SaveChanges();
 
             return RedirectToAction("CreateTempProjectView2", new { tempProjectId });
         }
@@ -461,15 +457,9 @@ namespace MyPortfolioWebApp.Controllers
                          select u).FirstOrDefault();
 
             if (image == null) return RedirectToAction("EditProjectView", new { projectId });
-
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Project" + image.ProjectId + "Data"), image.FileName);
-
-            if (System.IO.File.Exists(path))
-            {
-                System.IO.File.Delete(path);
-                db.Images.Remove(image);
-                db.SaveChanges();
-            }
+            BlobConnector.RemoveImage(image);
+            db.Images.Remove(image);
+            db.SaveChanges();
 
             return RedirectToAction("EditProjectView", new { projectId });
         }
@@ -498,48 +488,39 @@ namespace MyPortfolioWebApp.Controllers
         [HttpPost]
         public ActionResult UploadTempProjImage(HttpPostedFileBase file, int tempProjectId)
         {
+            _db = new ApplicationDbContext();
+
             Image image = new Image()
             {
-                FileName = Path.GetFileName(file.FileName),
+                FileName = "TempProject" + tempProjectId + file.FileName,
                 ProjectId = tempProjectId,
                 TempraryProject = true
-
             };
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/TempProject" + tempProjectId + "Data"), image.FileName);
-            //(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
-            UploadFile(file, image, path);
+
+            BlobConnector.UploadImage(file, image);
+            _db.Images.Add(image);
+            _db.SaveChanges();
+
             return RedirectToAction("CreateTempProjectView2", new { TempProjectId = tempProjectId });
         }
 
         [HttpPost]
         public ActionResult UploadProjImage(HttpPostedFileBase file, int projectId)
         {
+            _db = new ApplicationDbContext();
+
             Image image = new Image()
             {
-                FileName = Path.GetFileName(file.FileName),
+                FileName = "Project" + projectId + file.FileName,
                 ProjectId = projectId,
                 TempraryProject = false
             };
 
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Project" + projectId + "Data"), image.FileName);
-            UploadFile(file, image, path);
+            BlobConnector.UploadImage(file, image);
+            _db.Images.Add(image);
+            _db.SaveChanges();
 
             return RedirectToAction("EditProjectView", new { projectId });
-        }
-
-        private void UploadFile(HttpPostedFileBase file, Image image, string path)
-        {
-            _db = new ApplicationDbContext();
-
-            if (file.ContentLength > 0)
-            {
-                if (!System.IO.File.Exists(path))
-                {
-                    file.SaveAs(path);
-                    _db.Images.Add(image);
-                }
-            }
-            _db.SaveChanges();
         }
 
         public ActionResult EducationMgtView()

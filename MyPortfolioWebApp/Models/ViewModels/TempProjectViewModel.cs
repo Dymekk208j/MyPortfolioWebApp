@@ -48,11 +48,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
             return images;
         }
-
-        public static string GetPath(int tempProjectId)
-        {
-            return "/UploadedFiles/TempProject" + tempProjectId + "Data/";
-        }
+        
         public List<TechnologyViewModel> GetTechnologies(int projectId)
         {
             List<TechnologyViewModel> technologies = new List<TechnologyViewModel>();

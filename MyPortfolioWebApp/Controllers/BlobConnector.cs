@@ -2,15 +2,15 @@
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Blob;
+using MyPortfolioWebApp.Models.DatabaseModels;
 
 namespace MyPortfolioWebApp.Controllers
 {
     public static class BlobConnector
     {
-        private static readonly CloudBlobContainer IconsContainer;
+        private static CloudBlobContainer IconsContainer;
         private static CloudBlobContainer TempProjectImages;
         private static CloudBlobContainer ProjectImages;
-
 
         static BlobConnector()
         {
@@ -28,27 +28,35 @@ namespace MyPortfolioWebApp.Controllers
             ProjectImages = cloudBlobClient.GetContainerReference("projectimages");
             ProjectImages.CreateIfNotExistsAsync();
         }
+        public static void RemoveImage(Image image)
+        {
+            CloudBlockBlob cblob = image.TempraryProject ? TempProjectImages.GetBlockBlobReference(image.FileName) : ProjectImages.GetBlockBlobReference(image.FileName);
+
+            cblob.DeleteIfExists();
+        }
+
+        public static void UploadImage(HttpPostedFileBase file, Image image)
+        {
+            CloudBlockBlob cblob = image.TempraryProject ? TempProjectImages.GetBlockBlobReference(image.FileName) : ProjectImages.GetBlockBlobReference(image.FileName);
+
+            cblob.Properties.ContentType = "image/png";
+            cblob.UploadFromStream(file.InputStream);
+        }
 
         public static void UploadIcon(HttpPostedFileBase file, int projectId, bool temp)
         {
-            string fileName;
-            if (temp)
-            {
-                fileName = "Project" + projectId + "Icon.png";
-            }else fileName = "TempProject" + projectId + "Icon.png";
+            string fileName = temp ? Project.GetIconName(projectId) : TempProject.GetIconName(projectId);
 
             CloudBlockBlob cblob = IconsContainer.GetBlockBlobReference(fileName);
+            cblob.Properties.ContentType = "image/png";
+
+
             cblob.UploadFromStream(file.InputStream);
         }
 
         public static void RemoveIcon(int projectId, bool temp)
         {
-            string fileName;
-            if (temp)
-            {
-                fileName = "Project" + projectId + "Icon.png";
-            }
-            else fileName = "TempProject" + projectId + "Icon.png";
+            string fileName = temp ? Project.GetIconName(projectId) : TempProject.GetIconName(projectId);
 
             CloudBlockBlob cblob = IconsContainer.GetBlockBlobReference(fileName);
             cblob.DeleteIfExists();
