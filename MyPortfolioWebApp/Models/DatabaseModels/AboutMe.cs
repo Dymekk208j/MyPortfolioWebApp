@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace MyPortfolioWebApp.Models.DatabaseModels
 {
     public class AboutMe

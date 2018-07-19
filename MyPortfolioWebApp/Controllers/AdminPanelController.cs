@@ -63,7 +63,6 @@ namespace MyPortfolioWebApp.Controllers
 
             _db = new ApplicationDbContext();
             var project = (from u in _db.TempProjects where u.TempProjectId == tempProjectId select u).First();
-            string fileName = TempProject.GetIconName(tempProjectId);
 
             var img = System.Drawing.Image.FromStream(file.InputStream, true, true);
             if (img.Width > 150 || img.Height > 150) error = "Maksymalny rozmiar ikony to 150x150px.";
@@ -168,7 +167,7 @@ namespace MyPortfolioWebApp.Controllers
         public ActionResult ProjectsListView()
         {
             ApplicationDbContext db = new ApplicationDbContext();
-            ProjectListModelView projectListModelView = new ProjectListModelView {};
+            ProjectListModelView projectListModelView = new ProjectListModelView();
             var list = (from i in db.Projects select i).ToList();
             projectListModelView.List = Mapper.Map<List<Project>, List<ProjectViewModel>>(list);
 
@@ -874,6 +873,7 @@ namespace MyPortfolioWebApp.Controllers
 
         public ActionResult TechnologiesView()
         {
+
             TechnologyListViewModel technologyListViewModel = new TechnologyListViewModel();
             return View("TechnologiesMgt/TechnologiesView", technologyListViewModel);
         }

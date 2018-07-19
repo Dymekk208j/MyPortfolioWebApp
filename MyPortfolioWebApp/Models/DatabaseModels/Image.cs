@@ -1,5 +1,4 @@
-﻿using Microsoft.Owin.Security.Provider;
-
+﻿
 namespace MyPortfolioWebApp.Models.DatabaseModels
 {
     public class Image
