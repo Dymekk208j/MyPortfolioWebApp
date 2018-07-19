@@ -14,18 +14,5 @@ namespace MyPortfolioWebApp.Models.ViewModels
         [Display(Name = "Nazwa technologii")]
         public string Name { get; set; }
 
-        //public TechnologyViewModel()
-        //{
-        //    Technologies = new List<Technology>();
-        //    ApplicationDbContext db = new ApplicationDbContext();
-
-        //    var tech = from u in db.Technologies
-        //               select u;
-
-        //    foreach (var a in tech)
-        //    {
-        //        Technologies.Add(a);
-        //    }
-        //}
     }
 }

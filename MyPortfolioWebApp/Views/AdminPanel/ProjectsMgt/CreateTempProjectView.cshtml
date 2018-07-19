@@ -67,7 +67,7 @@
     using (Html.BeginForm("UpdateTempProject", "AdminPanel"))
     {
         @Html.HiddenFor(m => m.TempProjectId)
-
+        @Html.HiddenFor(m => m.IsIcon)
 
         <p>
             @Html.ValidationMessageFor(model => model.Title, "*", new { @class = "text-danger" })

@@ -6,7 +6,7 @@ namespace MyPortfolioWebApp.Models.DatabaseModels
     {
         public int ImageId { get; set; }
         public string FileName { get; set; }
-
+        public string OriginalFileName { get; set; }
         public int ProjectId { get; set; }
         public bool TempraryProject { get; set; }
 

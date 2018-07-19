@@ -108,20 +108,9 @@ namespace MyPortfolioWebApp.Controllers
 
             if (tempProject != null) _db.Projects.Add(project);
             _db.SaveChanges();
-
-            //  project.ImageLink = "IconProj" + project.ProjectId + ".png";
-            System.IO.File.Move(Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconTempProj" + projectId + ".png"),
-                Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), "IconProj" + project.ProjectId + ".png"));
-
-            _db.Entry(project).State = System.Data.Entity.EntityState.Modified;
-            _db.SaveChanges();
-
-
-            bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
-            if (!exists) Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data"));
-
-
-
+     
+            BlobConnector.MoveIconFromTempToProject(projectId, project.ProjectId);
+ 
             ApplicationDbContext db2 = new ApplicationDbContext();
             var tempProjectTechnologies = from x in db2.TempProjectTechnologies
                                           where x.ProjectId == projectId
@@ -143,9 +132,8 @@ namespace MyPortfolioWebApp.Controllers
 
             foreach (var v in imgList)
             {
-                System.IO.File.Move(Path.Combine(Server.MapPath("~/UploadedFiles/TempProject" + projectId + "Data/") + v.FileName),
-                                    Path.Combine(Server.MapPath("~/UploadedFiles/Project" + project.ProjectId + "Data/") + v.FileName));
-
+                BlobConnector.MoveImageFromTempToProject(v, project.ProjectId);
+                v.FileName = "Project" + project.ProjectId + v.OriginalFileName;
                 v.TempraryProject = false;
                 v.ProjectId = project.ProjectId;
                 _db.Entry(v).State = System.Data.Entity.EntityState.Modified;
@@ -194,10 +182,8 @@ namespace MyPortfolioWebApp.Controllers
             var project = (from u in _db.Projects
                            where u.ProjectId == projectId
                            select u).FirstOrDefault();
-
-            string fileName = "IconProj" + projectId + ".png";
-            var path = Path.Combine(Server.MapPath("~/UploadedFiles/Icons"), fileName);
-            System.IO.File.Delete(path);
+            
+            BlobConnector.RemoveIcon(projectId, true);
 
             _db.Entry(project).State = System.Data.Entity.EntityState.Deleted;
 
@@ -216,7 +202,7 @@ namespace MyPortfolioWebApp.Controllers
 
             foreach (var img in images)
             {
-                System.IO.File.Delete(Path.Combine(Server.MapPath("~/UploadedFiles/Project" + projectId + "Data/") + img.FileName));
+                BlobConnector.RemoveImage(img);
                 _db.Entry(img).State = System.Data.Entity.EntityState.Deleted;
             }
 
@@ -335,9 +321,9 @@ namespace MyPortfolioWebApp.Controllers
             return View("ProjectsMgt/CreateTempProjectView", projectViewModel);
         }
 
-        public ActionResult RemoveTempProject(int projectId)
+        public ActionResult RemoveTempProject(int tempProjectId)
         {
-            _RemoveTempProject(projectId);
+            _RemoveTempProject(tempProjectId);
 
             return RedirectToAction("TempProjectsListView");
         }
@@ -349,7 +335,7 @@ namespace MyPortfolioWebApp.Controllers
             var temoProject = (from u in _db.TempProjects
                                where u.TempProjectId == projectId
                                select u).FirstOrDefault();
-
+            BlobConnector.RemoveIcon(projectId, false);
             _db.Entry(temoProject).State = System.Data.Entity.EntityState.Deleted;
 
             var tempProjectTechnologies = from u in _db.TempProjectTechnologies
@@ -367,6 +353,7 @@ namespace MyPortfolioWebApp.Controllers
 
             foreach (var img in images)
             {
+                BlobConnector.RemoveImage(img);
                 _db.Entry(img).State = System.Data.Entity.EntityState.Deleted;
             }
 
@@ -496,6 +483,7 @@ namespace MyPortfolioWebApp.Controllers
 
             Image image = new Image()
             {
+                OriginalFileName = file.FileName,
                 FileName = "TempProject" + tempProjectId + file.FileName,
                 ProjectId = tempProjectId,
                 TempraryProject = true
@@ -515,6 +503,7 @@ namespace MyPortfolioWebApp.Controllers
 
             Image image = new Image()
             {
+                OriginalFileName = file.FileName,
                 FileName = "Project" + projectId + file.FileName,
                 ProjectId = projectId,
                 TempraryProject = false
@@ -885,8 +874,8 @@ namespace MyPortfolioWebApp.Controllers
 
         public ActionResult TechnologiesView()
         {
-            TechnologyViewModel tvm = new TechnologyViewModel();
-            return View("TechnologiesMgt/TechnologiesView", tvm);
+            TechnologyListViewModel technologyListViewModel = new TechnologyListViewModel();
+            return View("TechnologiesMgt/TechnologiesView", technologyListViewModel);
         }
 
         public ActionResult AddTechnology(TechnologyViewModel technology)

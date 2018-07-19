@@ -61,5 +61,21 @@ namespace MyPortfolioWebApp.Controllers
             CloudBlockBlob cblob = IconsContainer.GetBlockBlobReference(fileName);
             cblob.DeleteIfExists();
         }
+
+        public static void MoveIconFromTempToProject(int tempProjectId, int projectId)
+        {
+            CloudBlockBlob oldFile = IconsContainer.GetBlockBlobReference(TempProject.GetIconName(tempProjectId));
+            CloudBlockBlob newFile = IconsContainer.GetBlockBlobReference(Project.GetIconName(projectId));
+            newFile.StartCopy(oldFile);
+            oldFile.DeleteIfExists();
+        }
+
+        public static void MoveImageFromTempToProject(Image image, int projectId)
+        {
+            CloudBlockBlob oldFile = TempProjectImages.GetBlockBlobReference(image.FileName);
+            CloudBlockBlob newFile = ProjectImages.GetBlockBlobReference("Project" + projectId + image.OriginalFileName);
+            newFile.StartCopy(oldFile);
+            oldFile.DeleteIfExists();
+        }
     }
 }
