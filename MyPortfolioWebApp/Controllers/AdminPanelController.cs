@@ -179,7 +179,11 @@ namespace MyPortfolioWebApp.Controllers
 
         public ActionResult ProjectsListView()
         {
-            ProjectListModelView projectListModelView = new ProjectListModelView();
+            ApplicationDbContext db = new ApplicationDbContext();
+            ProjectListModelView projectListModelView = new ProjectListModelView {};
+            var list = (from i in db.Projects select i).ToList();
+            projectListModelView.List = Mapper.Map<List<Project>, List<ProjectViewModel>>(list);
+
             return View("ProjectsMgt/ProjectsListView", projectListModelView);
         }
 

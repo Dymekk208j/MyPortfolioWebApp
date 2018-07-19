@@ -3,18 +3,19 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
+    <title>Damian Dziura - Portfolio</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous" />
 
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Lib/Styles/default.css" rel="stylesheet" type="text/css" media="all" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
 </head>
 <body>
     <section class="menu">
@@ -58,11 +59,15 @@
                             <button type="button" class="btn btn-outline-secondary d-lg-none dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="fa fa-bars"></span>
                             </button>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="@Url.Action("Index", "Projects")">Projekty</a>
                                 <a class="dropdown-item" href="@Url.Action("Index", "AboutMe")">O mnie</a>
                                 <a class="dropdown-item" href="@Url.Action("Index", "Cv")">CV</a>
                                 <a class="dropdown-item" href="@Url.Action("Index", "Contact")">Kontakt</a>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <a class="dropdown-item" href="@Url.Action("Home", "AdminPanel")">Panel administratora</a>
+                                }
                             </div>
                         </div>
 
@@ -71,16 +76,7 @@
             </div>
 
             <div class="row">
-                @if (!Request.IsAuthenticated)
-                {
-
-                    @Html.Partial("_LoginPanelPartial", new MyPortfolioWebApp.Models.ViewModels.LoginViewModel())
-                }
-                else
-                {
-                    @Html.Partial("_LogedPanelPartial")
-
-                }
+                @(!Request.IsAuthenticated ? Html.Partial("_LoginPanelPartial", new MyPortfolioWebApp.Models.ViewModels.LoginViewModel()) : Html.Partial("_LogedPanelPartial"))
             </div>
 
 
@@ -114,6 +110,6 @@
     </section>
 
 
-
+ 
 </body>
 </html>

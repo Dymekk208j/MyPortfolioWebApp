@@ -3,21 +3,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
+    <title>Panel administratora</title>
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous" />
 
-
-    <link href="~/Lib/Styles/default.css" rel="stylesheet" type="text/css" media="all" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Lib/Styles/default.css" rel="stylesheet" type="text/css" media="all" />
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-
 
 </head>
 <body>
@@ -39,7 +38,7 @@
                         <button type="button" class="btn btn-outline-secondary d-none d-lg-block" onclick="location.href='@Url.Action("Index", "Contact")';return false;">Kontakt</button>
                         @if (Request.IsAuthenticated)
                         {
-                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm"}))
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                             {
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="btn btn-danger">Wyloguj</button>
@@ -85,10 +84,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-2 admin_panel_left_header">
-                <div style="text-align: center;" ><h5>Panel administratora</h5></div>
+                <div style="text-align: center;"><h5>Panel administratora</h5></div>
             </div>
             <div class="col admin_panel_left_header">
-                <div style="text-align: center;" ><h5>@RenderSection("Header", required: false)</h5></div>
+                <div style="text-align: center;"><h5>@RenderSection("Header", required: false)</h5></div>
             </div>
         </div>
 
@@ -121,15 +120,15 @@
                 <div id="rozwijana-lista" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista">
                     <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("UserMgt", "AdminPanel")';return false;">Konta użytkowników</button>
                 </div>
-                
-                @*<button type="button" class="btn btn-primary button_primary"  onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>*@
+
+                <button type="button" class="btn btn-primary button_primary"  onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>
 
                 <button type="button" class="btn btn-primary button_primary" data-toggle="collapse" href="#rozwijana-lista4" aria-expanded="true" aria-controls="rozwijana-lista4">
                     Zarządzanie CV
                 </button>
                 <div id="rozwijana-lista4" class="collapse in" role="tabpanel" aria-labelledby="rozwijana-lista3">
                     <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EditCvPage", "AdminPanel")';return false;">Edytuj CV</button>
-                    <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>
+                    @*<button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("TechnologiesView", "AdminPanel")';return false;">Technologie</button>*@
                     <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("AchivmentsEditView", "AdminPanel")';return false;">Osiągnięcia</button>
                     <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("AdditionalInformationMgtView", "AdminPanel")';return false;">Dodatkowe informacje</button>
                     <button type="button" class="btn btn-info button_secondary" onclick="location.href='@Url.Action("EmploymentHistoryMgtView", "AdminPanel")';return false;">Historia zatrudnienia</button>
@@ -146,19 +145,18 @@
     </div>
 
 
-<section class="myfooter">
-    <div class="container">
-        <div class="row">
-            <div class="col text-center">
-                <p>Damian Dziura 2018. All rights reserved.</p>
+    <section class="myfooter">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <p>Damian Dziura 2018. All rights reserved.</p>
+                </div>
             </div>
+
         </div>
-
-    </div>
-</section>
+    </section>
 
 
-@RenderSection("scripts", required: false)
-   
+
 </body>
 </html>
