@@ -32,8 +32,8 @@
                         </p>
                         <p>
                             @Html.ValidationMessageFor(m => m.StartDate, "*", new { @class = "text-danger" })
-                            @Html.LabelFor(m => m.StartDate, new {type = "date" })
-                            <input class="form-control" type="date" value="@Html.Raw(Model.StrStartDate)" id="@Html.Raw("addStartDate" + Model.EducationId)" name="StartDate">
+                            @Html.LabelFor(m => m.StartDate, new { type = "date" })
+                            <input class="form-control" type="date" value="@Model.StartDate" id="StartDate" name="StartDate">
                         </p>
                         <p>
                             <label class="form-check-label">
@@ -41,11 +41,11 @@
                                 Aktualne miejsce nauki
                             </label>
                         </p>
-                        <p id="@Html.Raw("addEndDateParagraf" + Model.EducationId)" @if (Model.CurrentPlaceOfEducation ) { @Html.Raw("style=\"display: none;\"") }>
+                        <p id="@Html.Raw("addEndDateParagraf" + Model.EducationId)" @if (Model.CurrentPlaceOfEducation) { @Html.Raw("style=\"display: none;\"") }>
 
                             @Html.ValidationMessageFor(m => m.EndDate, "*", new { @class = "text-danger" })
-                            @Html.LabelFor(m => m.EndDate, new {type = "date" })
-                            <input class="form-control" type="date" value="@Html.Raw(Model.StrEndDate)" id="@Html.Raw("addEndDate" + Model.EducationId)" name="EndDate">
+                            @Html.LabelFor(m => m.EndDate, new { type = "date" })
+                            <input class="form-control" type="date" value="@Model.EndDate" id="EndDate" name="EndDate">
 
                         </p>
                         <p>

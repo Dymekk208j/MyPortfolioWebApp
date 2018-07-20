@@ -23,7 +23,6 @@
                             @Html.ValidationMessageFor(model => model.TypeList, "*", new { @class = "text-danger" })
                             @Html.LabelFor(m => m.TypeList, new { htmlAttributes = new { @class = "control-label" }, })
                             @Html.DropDownListFor(model => model.Type, new SelectList(Model.TypeList, "Id", "Name"))
-
                         </p>
                         <p>
                             @Html.ValidationMessageFor(model => model.ShowInCv, "*", new { @class = "text-danger" })

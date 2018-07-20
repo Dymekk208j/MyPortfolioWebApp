@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Globalization;
 
 
 namespace MyPortfolioWebApp.Models.ViewModels
@@ -38,9 +37,5 @@ namespace MyPortfolioWebApp.Models.ViewModels
         [Required]
         [Display(Name = "Dodaj co CV")]
         public bool ShowInCv { get; set; }
-
-        public string StrStartDate => DateTime.ParseExact(StartDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-        public string StrEndDate => DateTime.ParseExact(EndDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
     }
 }

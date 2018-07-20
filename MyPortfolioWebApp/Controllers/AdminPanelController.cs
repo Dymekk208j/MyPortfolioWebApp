@@ -145,7 +145,7 @@ namespace MyPortfolioWebApp.Controllers
             return RedirectToAction("ProjectsListView");
         }
 
-        public ActionResult UpdateProject(ProjectViewModel projectViewModel)
+        public ActionResult UpdateProject(ProjectViewModel projectViewModel)          
         {
             _db = new ApplicationDbContext();
             Project project = Mapper.Map<ProjectViewModel, Project>(projectViewModel);

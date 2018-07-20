@@ -31,8 +31,8 @@
                         </p>
                         <p>
                             @Html.ValidationMessageFor(m => m.StartDate, "*", new { @class = "text-danger" })
-                            @Html.LabelFor(m => m.StartDate, new {type = "date" })
-                            <input class="form-control" type="date" value="@Html.Raw(Model.StrStartDate)" id="@Html.Raw("addStartDate" + Model.EmploymentHistoryId)" name="StartDate">
+                            @Html.LabelFor(m => m.StartDate)
+                            <input class="form-control" type="date" value="@Model.StartDate" id="StartDate" name="StartDate">
                         </p>
                         <p>
                             <label class="form-check-label">
@@ -44,7 +44,8 @@
 
                             @Html.ValidationMessageFor(m => m.EndDate, "*", new { @class = "text-danger" })
                             @Html.LabelFor(m => m.EndDate, new { type = "date" })
-                            <input class="form-control" type="date" value="@Html.Raw(Model.StrEndDate)" id="@Html.Raw("addEndDate" + Model.EmploymentHistoryId)" name="EndDate">
+                            <input class="form-control" type="date" value="@Model.EndDate" id="EndDate" name="EndDate">
+
 
                         </p>
                         <p>

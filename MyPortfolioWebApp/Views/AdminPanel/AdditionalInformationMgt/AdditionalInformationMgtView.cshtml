@@ -37,7 +37,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+                                <th class="text-center" style="max-width: 40px !important; border-left: dotted; border-left-width: 1px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,7 +73,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+                                <th class="text-center" style="max-width: 40px !important; border-left: dotted; border-left-width: 1px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +88,7 @@
                                         </td>
                                         <td class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">
 
-                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm  far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAchivmentFromCv", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
+                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm  far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAdditionalInformation", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
 
 
                                         </td>
@@ -109,7 +109,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Name</th>
-                                <th class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">Action</th>
+                                <th class="text-center" style="max-width: 40px !important; border-left: dotted; border-left-width: 1px;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,7 +124,7 @@
                                         </td>
                                         <td class="text-center" style="max-width: 20px !important; border-left: dotted; border-left-width: 1px;">
 
-                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAchivmentFromCv", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
+                                            <button type="button" id="@Html.Raw("RemoveBtn" + u.AdditionalInfoId)" class="btn btn-danger btn-sm far fa-minus-square" onclick="location.href = '@Url.Action("RemoveAdditionalInformation", "AdminPanel", new { id = u.AdditionalInfoId })';return false;"> Usuń</button>
 
 
                                         </td>

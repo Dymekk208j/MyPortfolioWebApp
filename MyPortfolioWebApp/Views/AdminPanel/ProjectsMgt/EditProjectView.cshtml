@@ -66,6 +66,7 @@
     using (Html.BeginForm("UpdateProject", "AdminPanel"))
     {
         @Html.HiddenFor(m => m.ProjectId)
+        @Html.HiddenFor(m => m.IsIcon)
 
 
         <p>
@@ -134,7 +135,7 @@
                 }
                 else
                 {
-                    <b>Ikona: </b> @Html.Name(Project.GetIconName(Model.ProjectId)) 
+                    <b>Ikona: </b> @Html.Name(Project.GetIconName(Model.ProjectId))
                     <button id="RemoveIconBtn" type="button" class="btn btn-outline-danger far fa-minus-square text-right button-xs" onclick="location.href='@Url.Action("RemoveIconFromProject", "AdminPanel", new{projectId = Model.ProjectId})';return false;"></button>
                 }
             }
