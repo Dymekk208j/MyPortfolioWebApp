@@ -31,7 +31,7 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public DateTime EndDate { get; set; }
 
         [Required]
-        [Display(Name = "Aktualne miejsce zatrudnienia?")]
+        [Display(Name = "Aktualne?")]
         public bool CurrentPlaceOfEmployment { get; set; }
 
         [Required]

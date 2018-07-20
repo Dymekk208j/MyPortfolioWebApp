@@ -23,7 +23,6 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         [Display(Name = "Data zakończenia")]
         [Column(TypeName = "datetime2")]
-
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Aktualne miejsce nauki")]
@@ -31,10 +30,5 @@ namespace MyPortfolioWebApp.Models.ViewModels
 
         [Display(Name = "Dodaj do CV")]
         public bool ShowInCv { get; set; }
-
-
-        public string StrStartDate => DateTime.ParseExact(StartDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-
-        public string StrEndDate => DateTime.ParseExact(EndDate.ToShortDateString(), "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
-    }
+        }
 }
