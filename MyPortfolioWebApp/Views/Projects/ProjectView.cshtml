@@ -1,4 +1,5 @@
 ﻿@using MyPortfolioWebApp.Controllers
+@using MyPortfolioWebApp.Models.ViewModels
 @model MyPortfolioWebApp.Models.ViewModels.ProjectViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -43,12 +44,14 @@
 
             <div class="card-body ">
                 @{
-                    if (MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId).Any())
+                    var imagesProj = ProjectViewModel.GetImagesForProject(Model.ProjectId);
+
+                    if (imagesProj.Any())
                     {
-                        int imagesAmount = MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId).Count();
+                        int imagesAmount = ProjectViewModel.GetImagesForProject(Model.ProjectId).Count();
                         int counter = 1;
                         <div class="slideshow-container">
-                            @foreach (var i in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+                            @foreach (var i in imagesProj)
                             {
                                 <div class="mySlides fade">
                                     <div class="numbertext">@Html.Raw(counter) / @Html.Raw(imagesAmount)</div>
@@ -66,7 +69,7 @@
                         <div style="text-align: center">
                            @{
                                counter = 1;
-                               foreach (var unused in MyPortfolioWebApp.Models.ViewModels.ProjectViewModel.GetImagesForProject(Model.ProjectId))
+                               foreach (var unused in imagesProj)
                                {
                                    <span class="dot" onclick="currentSlide(counter)"></span>
                                    counter++;

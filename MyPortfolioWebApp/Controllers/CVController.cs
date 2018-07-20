@@ -30,6 +30,23 @@ namespace MyPortfolioWebApp.Controllers
             return View(_cvViewModel);
         }
 
+        public ActionResult PrintPDF()
+        {
+            _cvViewModel = new CvViewModel();
+            _db = new ApplicationDbContext();
+
+            _cvViewModel.PrivateInformationViewModel = new PrivateInformationViewModel();
+
+            GetAchivments();
+            GetAdditionalInfos();
+            GetEducations();
+            GetEmploymentHistories();
+            GetProjects();
+            GetTechnologies();
+
+            return View(_cvViewModel);
+        }
+
         private void GetAchivments()
         {
             _cvViewModel.Achivments = new List<Achivment>();

@@ -438,6 +438,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\AdminPanel\TechnologiesMgt\_addTechnologyPartialView.cshtml" />
+    <Content Include="Views\CV\PrintPDF.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
