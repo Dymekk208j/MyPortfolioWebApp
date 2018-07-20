@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using AutoMapper;
 using MyPortfolioWebApp.Models;
 using MyPortfolioWebApp.Models.DatabaseModels;
 using MyPortfolioWebApp.Models.ViewModels;
@@ -33,6 +34,7 @@ namespace MyPortfolioWebApp.Controllers
         {
             _cvViewModel.Achivments = new List<Achivment>();
             var cvm = from u in _db.Achivments
+                where u.ShowInCv
                       select u;
 
             foreach (Achivment a in cvm)
@@ -46,6 +48,7 @@ namespace MyPortfolioWebApp.Controllers
             _cvViewModel.AdditionalInfos = new List<AdditionalInfo>();
 
             var cvm = from u in _db.AdditionalInfos
+                where u.ShowInCv
                       select u;
 
             foreach (AdditionalInfo a in cvm)
@@ -59,6 +62,7 @@ namespace MyPortfolioWebApp.Controllers
             _cvViewModel.Educations = new List<Education>();
 
             var cvm = from u in _db.Educations
+                where u.ShowInCv
                       select u;
 
             foreach (Education a in cvm)
@@ -72,6 +76,7 @@ namespace MyPortfolioWebApp.Controllers
             _cvViewModel.EmploymentHistories = new List<EmploymentHistory>();
 
             var cvm = from u in _db.EmploymentHistories
+                      where u.ShowInCv
                       select u;
 
             foreach (EmploymentHistory a in cvm)
@@ -82,23 +87,26 @@ namespace MyPortfolioWebApp.Controllers
 
         private void GetProjects()
         {
-            _cvViewModel.Projects = new List<Project>();
+            _cvViewModel.Projects = new List<ProjectViewModel>();
 
             var cvm = from u in _db.Projects
-                      select u;
+                where u.ShowInCv
+                select u;
 
             foreach (Project a in cvm)
             {
-                _cvViewModel.Projects.Add(a);
+                var j = Mapper.Map<Project, ProjectViewModel>(a);
+                _cvViewModel.Projects.Add(j);
             }
         }
-             
+
 
         private void GetTechnologies()
         {
             _cvViewModel.Technologies = new List<Technology>();
 
             var cvm = from u in _db.Technologies
+                where u.ShowInCv
                       select u;
 
             foreach (Technology a in cvm)

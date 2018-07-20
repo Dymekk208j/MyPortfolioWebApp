@@ -25,8 +25,8 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public List<AdditionalInfo> AdditionalInfos { get; set; }
         public List<Education> Educations { get; set; }
         public List<EmploymentHistory> EmploymentHistories { get; set; }
-        public List<Project> Projects { get; set; }
-        public List<Technology> Technologies { get; set; }
+        public List<ProjectViewModel> Projects { get; set; }
+        public List<Technology> Technologies{ get; set; }
 
         public CvViewModel()
         {
@@ -36,27 +36,27 @@ namespace MyPortfolioWebApp.Models.ViewModels
                                   select u).FirstOrDefault();
             PrivateInformationViewModel = Mapper.Map<PrivateInformation, PrivateInformationViewModel>(privateInformation);
         }
-        public List<TechnologyViewModel> GetTechnologies(int projectId)
-        {
-            List<TechnologyViewModel> technologiesList = new List<TechnologyViewModel>();
-            ApplicationDbContext db = new ApplicationDbContext();
+        //public List<TechnologyViewModel> GetTechnologies(int projectId)
+        //{
+        //    List<TechnologyViewModel> technologiesList = new List<TechnologyViewModel>();
+        //    ApplicationDbContext db = new ApplicationDbContext();
 
-            var projectTechnologiesList = (from u in db.ProjectTechnologies
-                                           where u.ProjectId == projectId
-                                           select u);
-            ApplicationDbContext db2 = new ApplicationDbContext();
-            TechnologyViewModel tvm;
-            foreach (var t in projectTechnologiesList)
-            {
-                var technology = (from u in db2.Technologies
-                                  where u.TechnologyId == t.TechnologyId
-                                  select u).FirstOrDefault();
-                tvm = Mapper.Map<Technology, TechnologyViewModel>(technology);
-                if (tvm != null) technologiesList.Add(tvm);
-            }
-            return technologiesList;
+        //    var projectTechnologiesList = (from u in db.ProjectTechnologies
+        //                                   where u.ProjectId == projectId
+        //                                   select u);
+        //    ApplicationDbContext db2 = new ApplicationDbContext();
+        //    TechnologyViewModel tvm;
+        //    foreach (var t in projectTechnologiesList)
+        //    {
+        //        var technology = (from u in db2.Technologies
+        //                          where u.TechnologyId == t.TechnologyId
+        //                          select u).FirstOrDefault();
+        //        tvm = Mapper.Map<Technology, TechnologyViewModel>(technology);
+        //        if (tvm != null) technologiesList.Add(tvm);
+        //    }
+        //    return technologiesList;
 
-        }
+        //}
 
 
     }

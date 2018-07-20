@@ -32,7 +32,8 @@ namespace MyPortfolioWebApp.Models.ViewModels
         public DateTime DateTimeCreated { get; set; }
 
         public string AuthorId { get; set; }
-        
+        public bool ShowInCv { get; set; }
+
         public static List<Image> GetImagesForProject(int projectId)
         {
             List<Image> images = new List<Image>();

@@ -1047,14 +1047,15 @@ namespace MyPortfolioWebApp.Controllers
 
         private void GetProjects()
         {
-            _cvViewModel.Projects = new List<Project>();
+            _cvViewModel.Projects = new List<ProjectViewModel>();
 
             var cvm = from u in _db.Projects
                       select u;
 
             foreach (Project a in cvm)
             {
-                _cvViewModel.Projects.Add(a);
+                var j = Mapper.Map<Project, ProjectViewModel>(a);
+                _cvViewModel.Projects.Add(j);
             }
         }
 

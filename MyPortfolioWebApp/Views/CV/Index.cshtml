@@ -32,17 +32,20 @@
                     </div>
                     <div class="col text-left">
                         @{
-                            foreach (var a in Model.Projects.Where(x => x.Commercial && x.ShowInCv))
+                           
+                            foreach (var a in Model.Projects.Where(x => x.Commercial))
                             {
+                                a.Technologies = a.GetTechnologies(a.ProjectId);
+                                int techCount = a.Technologies.Count();
                                 <p>
                                     <b>@Html.Name(a.Title)</b><br />
-                                    @if (Model.GetTechnologies(a.ProjectId) != null)
+                                    @if (a.Technologies.Any())
                                     {
                                         int z = 0;
-                                        foreach (var j in Model.GetTechnologies(a.ProjectId))
+                                        foreach (var j in a.Technologies)
                                         {
 
-                                            if (Model.GetTechnologies(a.ProjectId).Count > 1 && z < Model.GetTechnologies(a.ProjectId).Count - 1)
+                                            if (techCount > 1 && z < techCount - 1)
                                             {
                                                 <i>@Html.Raw(j.Name),</i>
                                             }
@@ -68,17 +71,20 @@
                     </div>
                     <div class="col text-left">
                         @{
-                            foreach (var a in Model.Projects.Where(x => x.Commercial == false && x.ShowInCv))
+
+                            foreach (var a in Model.Projects.Where(x => x.Commercial == false))
                             {
+                                a.Technologies = a.GetTechnologies(a.ProjectId);
+                                int techCount = a.Technologies.Count();
                                 <p>
-                                    <b>@Html.Name(a.Title)</b> <br />
-                                    @if (Model.GetTechnologies(a.ProjectId) != null)
+                                    <b>@Html.Name(a.Title)</b><br />
+                                    @if (a.Technologies.Any())
                                     {
                                         int z = 0;
-                                        foreach (var j in Model.GetTechnologies(a.ProjectId))
+                                        foreach (var j in a.Technologies)
                                         {
 
-                                            if (Model.GetTechnologies(a.ProjectId).Count > 1 && z < Model.GetTechnologies(a.ProjectId).Count - 1)
+                                            if (techCount > 1 && z < techCount - 1)
                                             {
                                                 <i>@Html.Raw(j.Name),</i>
                                             }
@@ -110,7 +116,7 @@
                                 foreach (var a in Model.Technologies.Where(x => x.LevelOfKnowledge == 0))
                                 {
                                     <span> @Html.Name(a.Name)</span>
-                                    if (Model.Technologies.Where(x => x.LevelOfKnowledge == 0).Count() > 1 && i < Model.Technologies.Where(x => x.LevelOfKnowledge == 0).Count() - 1)
+                                    if (Model.Technologies.Count(x => x.LevelOfKnowledge == 0) > 1 && i < Model.Technologies.Count(x => x.LevelOfKnowledge == 0) - 1)
                                     {
                                         <span>@Html.Raw(",")</span>
                                     }
@@ -128,7 +134,7 @@
                                 foreach (var a in Model.Technologies.Where(x => x.LevelOfKnowledge == 1))
                                 {
                                     <span> @Html.Name(a.Name)</span>
-                                    if (Model.Technologies.Where(x => x.LevelOfKnowledge == 1).Count() > 1 && i < Model.Technologies.Where(x => x.LevelOfKnowledge == 1).Count() - 1)
+                                    if (Model.Technologies.Count(x => x.LevelOfKnowledge == 1) > 1 && i < Model.Technologies.Count(x => x.LevelOfKnowledge == 1) - 1)
                                     {
                                         @Html.Raw(",")
                                     }
@@ -145,7 +151,7 @@
                                 foreach (var a in Model.Technologies.Where(x => x.LevelOfKnowledge == 2))
                                 {
                                     <span> @Html.Name(a.Name)</span>
-                                    if (Model.Technologies.Where(x => x.LevelOfKnowledge == 2).Count() > 1 && i < Model.Technologies.Where(x => x.LevelOfKnowledge == 2).Count() - 1)
+                                    if (Model.Technologies.Count(x => x.LevelOfKnowledge == 2) > 1 && i < Model.Technologies.Count(x => x.LevelOfKnowledge == 2) - 1)
                                     {
                                         @Html.Raw(",")
                                     }
@@ -155,80 +161,6 @@
                         </div>
                     </div>
                 </div>
-
-                @*<div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 1em;" id="SkillsRow">
-                        <div class="col-4">
-                            <h6 style="color: cornflowerblue;">Umiejętności</h6>
-                        </div>
-                        <div class="col text-left">
-                            <div id="IDE" class="d-inline">
-                                <span style="font-weight: bold;">IDE: </span>
-                                @{
-                                    i = 0;
-                                    foreach (var a in Model.Skills.Where(x => x.Type == 0))
-                                    {
-                                        <span> @Html.Name(a.Title)</span>
-                                        if (Model.Skills.Where(x => x.Type == 0).Count() > 1 && i < Model.Skills.Where(x => x.Type == 0).Count() - 1)
-                                        {
-                                            @Html.Raw(", ")
-                                        }
-                                        i++;
-                                    }
-                                }
-                            </div>
-
-                            <br />
-                            <div id="Database" class="d-inline">
-                                <span style="font-weight: bold;">Bazy danych: </span>
-                                @{
-                                    i = 0;
-                                    foreach (var a in Model.Skills.Where(x => x.Type == 1))
-                                    {
-                                        <span> @Html.Name(a.Title)</span>
-                                        if (Model.Skills.Where(x => x.Type == 1).Count() > 1 && i < Model.Skills.Where(x => x.Type == 1).Count() - 1)
-                                        {
-                                            @Html.Raw(", ")
-                                        }
-                                        i++;
-                                    }
-                                }
-                            </div>
-
-                            <br />
-                            <div id="Database" class="d-inline">
-                                <span style="font-weight: bold;">Biblioteki: </span>
-                                @{
-                                    i = 0;
-                                    foreach (var a in Model.Skills.Where(x => x.Type == 2))
-                                    {
-                                        <span> @Html.Name(a.Title)</span>
-                                        if (Model.Skills.Where(x => x.Type == 2).Count() > 1 && i < Model.Skills.Where(x => x.Type == 2).Count() - 1)
-                                        {
-                                            @Html.Raw(", ")
-                                        }
-                                        i++;
-                                    }
-                                }
-                            </div>
-
-                            <br />
-                            <div id="Database" class="d-inline">
-                                <span style="font-weight: bold;">Serwery: </span>
-                                @{
-                                    i = 0;
-                                    foreach (var a in Model.Skills.Where(x => x.Type == 3))
-                                    {
-                                        <span> @Html.Name(a.Title)</span>
-                                        if (Model.Skills.Where(x => x.Type == 3).Count() > 1 && i < Model.Skills.Where(x => x.Type == 3).Count() - 1)
-                                        {
-                                            @Html.Raw(", ")
-                                        }
-                                        i++;
-                                    }
-                                }
-                            </div>
-                        </div>
-                    </div>*@
 
                 <div class="row" style="margin-top: 1em; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: cornflowerblue !important; padding-bottom: 0.2em;" id="AchivmentsRow">
                     <div class="col-4">
@@ -260,7 +192,7 @@
                                 foreach (var a in Model.AdditionalInfos.Where(x => x.Type == 0))
                                 {
                                     <span> @Html.Name(a.Title)</span>
-                                    if (Model.AdditionalInfos.Where(x => x.Type == 0).Count() > 1 && i < Model.AdditionalInfos.Where(x => x.Type == 0).Count() - 1)
+                                    if (Model.AdditionalInfos.Count(x => x.Type == 0) > 1 && i < Model.AdditionalInfos.Count(x => x.Type == 0) - 1)
                                     {
                                         @Html.Raw(", ")
                                     }
@@ -277,7 +209,7 @@
                                 foreach (var a in Model.AdditionalInfos.Where(x => x.Type == 1))
                                 {
                                     <span> @Html.Name(a.Title)</span>
-                                    if (Model.AdditionalInfos.Where(x => x.Type == 1).Count() > 1 && i < Model.AdditionalInfos.Where(x => x.Type == 1).Count() - 1)
+                                    if (Model.AdditionalInfos.Count(x => x.Type == 1) > 1 && i < Model.AdditionalInfos.Count(x => x.Type == 1) - 1)
                                     {
                                         @Html.Raw(", ")
                                     }
@@ -294,7 +226,7 @@
                                 foreach (var a in Model.AdditionalInfos.Where(x => x.Type == 2))
                                 {
                                     <span> @Html.Name(a.Title)</span>
-                                    if (Model.AdditionalInfos.Where(x => x.Type == 2).Count() > 1 && i < Model.AdditionalInfos.Where(x => x.Type == 2).Count() - 1)
+                                    if (Model.AdditionalInfos.Count(x => x.Type == 2) > 1 && i < Model.AdditionalInfos.Count(x => x.Type == 2) - 1)
                                     {
                                         @Html.Raw(", ")
                                     }
